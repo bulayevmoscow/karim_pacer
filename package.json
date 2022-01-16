@@ -6,6 +6,10 @@
     "lerna": "^4.0.0",
     "prettier": "2.3.0"
   },
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "build:front": "lerna run build --stream --scope=@monorepo/front"
+  },
   "workspaces": [
     "packages/*"
   ]
