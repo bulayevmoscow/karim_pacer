@@ -30,7 +30,6 @@ web_modules/
 .node_repl_history
 *.tgz
 .yarn-integrity
-.env
 .env.test
 .cache
 .parcel-cache
@@ -51,3 +50,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 .idea
+**/*/package-lock.json

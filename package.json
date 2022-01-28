@@ -2,15 +2,19 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "eslint": "7.10.0",
     "lerna": "^4.0.0",
-    "prettier": "2.3.0"
+    "prettier": "2.3.0",
+    "husky": "^7.0.4"
   },
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "build:front": "lerna run build --stream --scope=@monorepo/front"
+    "build:front": "lerna run build --stream --scope=@monorepo/front",
+    "start:front": "lerna run start --stream --scope=@monorepo/front",
+    "test:back": "lerna exec \"npx jest\" --stream --scope=@monorepo/back",
+    "prepare": "husky install"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {}
 }
