@@ -1,7 +1,7 @@
 import request from 'supertest'
 import app from './index'
 
-describe("Server", () => {
+describe.skip("Server", () => {
     beforeEach(() => {
         jest.resetModules() // Most important - it clears the cache
         process.env = {...process.env, port: "8080"}

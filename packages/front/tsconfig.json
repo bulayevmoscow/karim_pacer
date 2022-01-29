@@ -15,6 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "baseUrl": ".",
     "paths": {
       "@modules/*": ["src/modules/*"],
       "@context": ["src/context/reducer.tsx"]
