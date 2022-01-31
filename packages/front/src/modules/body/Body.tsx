@@ -1,15 +1,22 @@
-import { useContext, useEffect } from 'react';
-import { MyContext } from '@context';
-import { TabHeader } from '@modules/body/TabHeader';
+import { useContext, useEffect } from 'react'
+import { MyContext, Request } from '@context'
+import { TabHeader } from '@modules/body/TabHeader'
+import { BodyPathSwitcher } from '@modules/body/BodyPathSwitcher/BodyPathSwitcher'
 
 export const Body = () => {
-	const { state, dispatch } = useContext(MyContext);
-	useEffect(() => {
-		console.log(state);
-	}, [state]);
-	return (<div>
-		<TabHeader/>
-		{state.appInfo.tab}
-	</div>);
-};
-
+  const { dispatch } = useContext(MyContext)
+  const request = Request({
+    url: 'api/data',
+    payload: {},
+    dispatch,
+  })
+  useEffect(() => {
+    request()
+  }, [])
+  return (
+    <div>
+      <TabHeader />
+      <BodyPathSwitcher />
+    </div>
+  )
+}

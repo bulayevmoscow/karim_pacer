@@ -4,17 +4,23 @@
   "devDependencies": {
     "lerna": "^4.0.0",
     "prettier": "2.3.0",
-    "husky": "^7.0.4"
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.2"
   },
   "scripts": {
     "postinstall": "lerna bootstrap",
     "build:front": "lerna run build --stream --scope=@monorepo/front",
     "start:front": "lerna run start --stream --scope=@monorepo/front",
     "test:back": "lerna exec \"npx jest\" --stream --scope=@monorepo/back",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint:check": "prettier --check .",
+    "lint:fix": "prettier --write ."
   },
   "workspaces": [
     "packages/*"
   ],
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,json,md}": "yarn lint:check"
+  },
   "dependencies": {}
 }

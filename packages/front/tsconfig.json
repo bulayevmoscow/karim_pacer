@@ -20,7 +20,6 @@
       "@modules/*": ["src/modules/*"],
       "@context": ["src/context/reducer.tsx"]
     }
-
   },
   "include": ["./src"]
 }
