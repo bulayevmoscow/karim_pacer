@@ -60,7 +60,10 @@ export const TabHeader = () => {
           key={index}
           className={`${tab.cn} ${tab.current && style.active}`}
           onClick={() => {
-            dispatch({ type: 'changePage', page: tab.id })
+            dispatch({
+              type: 'changePage',
+              page: tab.id,
+            })
           }}
         />
       ))}

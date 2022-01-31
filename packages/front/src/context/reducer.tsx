@@ -1,21 +1,40 @@
-import React, { createContext, FC, useCallback, useContext, useReducer, useState } from 'react'
+import React, { createContext, FC, useReducer } from 'react'
 import { TExternalData } from '@monorepo/types'
 import axios, { AxiosResponse } from 'axios'
 
-type TAction = { type: 'changePage'; page: 0 | 1 | 2 | 3 } | { type: 'updateDataFromServer'; data: TExternalData }
+export type TAction =
+  | { type: 'changePage'; page: 0 | 1 | 2 | 3 }
+  | { type: 'updateDataFromServer'; data: TExternalData }
+  | { type: 'connectStatusToggle'; status: boolean; url?: string; code?: string }
 
 export type TInternalData = {
-  appInfo: { tab: number }
+  appInfo: { tab: number; statusConnect: 'CONNECTED' | 'DISCONNECTED'; errorConnect: { code?: string; url?: string } }
 }
 
-type TContext = TInternalData & TExternalData
+export type TContext = TInternalData & TExternalData
 
 export const initionalData: TContext = {
-  appInfo: { tab: 0 },
+  appInfo: {
+    tab: 0,
+    statusConnect: 'CONNECTED',
+    errorConnect: {
+      code: undefined,
+      url: undefined,
+    },
+  },
   pathInfo: [
-    { connected: true, status: 'IDLE' },
-    { connected: true, status: 'IDLE' },
-    { connected: false, status: 'IDLE' },
+    {
+      connected: true,
+      status: 'IDLE',
+    },
+    {
+      connected: true,
+      status: 'IDLE',
+    },
+    {
+      connected: false,
+      status: 'IDLE',
+    },
   ],
 }
 
@@ -23,9 +42,35 @@ const reducer = (prev: TContext, action: TAction): TContext => {
   console.log('reducer: ', action)
   switch (action.type) {
     case 'changePage':
-      return { ...prev, appInfo: { ...prev.appInfo, tab: action.page } }
+      return {
+        ...prev,
+        appInfo: {
+          ...prev.appInfo,
+          tab: action.page,
+        },
+      }
     case 'updateDataFromServer':
-      return { ...prev, ...action.data }
+      if (!action.data) {
+        return prev
+      }
+
+      return {
+        ...prev,
+        ...action.data,
+      }
+
+    case 'connectStatusToggle':
+      return {
+        ...prev,
+        appInfo: {
+          ...prev.appInfo,
+          statusConnect: action.status ? 'CONNECTED' : 'DISCONNECTED',
+          errorConnect: {
+            code: action.code,
+            url: action.url,
+          },
+        },
+      }
     default: {
       console.log('no change')
       return prev
@@ -41,29 +86,43 @@ export const MyContext = createContext<{
   dispatch: () => {},
 })
 
-const axiosInstance = axios.create({
-  method: 'POST',
-  url: '/api/',
-})
+// Const requestLogging = (value: AxiosResponse) => {
+//   console.log(`${value.config.url}, ${value.status}`)
+//   return value
+// }
 
-export const Request = ({
+export const createRequest = <T extends {}>({
   url,
   payload,
   dispatch,
 }: {
   url: string
-  payload: {}
+  payload: T
   dispatch: React.Dispatch<TAction>
 }) => {
   return async () => {
-    await axiosInstance(url, { data: payload }).then((x: AxiosResponse<TExternalData>) =>
-      dispatch({ type: 'updateDataFromServer', data: x.data })
-    )
+    console.log('12345')
+    return axios.post<any, AxiosResponse<TExternalData>>(url, payload).then(x => {
+      dispatch({
+        type: 'updateDataFromServer',
+        data: x.data,
+      })
+      return x
+    })
   }
 }
 
 export const Provider: FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initionalData)
 
-  return <MyContext.Provider value={{ state, dispatch }}>{children}</MyContext.Provider>
+  return (
+    <MyContext.Provider
+      value={{
+        state,
+        dispatch,
+      }}
+    >
+      {children}
+    </MyContext.Provider>
+  )
 }

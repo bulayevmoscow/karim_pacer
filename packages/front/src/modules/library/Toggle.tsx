@@ -4,12 +4,13 @@ import { FC } from 'react'
 type TToggle = {
   value?: boolean
   dispatcher: () => void
+  className?: string
 }
 
-export const Toggle: FC<TToggle> = ({ value, dispatcher }) => {
+export const Toggle: FC<TToggle> = ({ value, dispatcher, className }) => {
   return (
     <label
-      className={style.switch}
+      className={`${style.switch} ${className ? className : ''}`}
       onClick={e => {
         dispatcher()
         e.preventDefault()
@@ -17,7 +18,7 @@ export const Toggle: FC<TToggle> = ({ value, dispatcher }) => {
       }}
     >
       <input type="checkbox" checked={value === true} readOnly={true} />
-      <i></i>
+      <i />
     </label>
   )
 }

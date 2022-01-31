@@ -9,13 +9,15 @@
   "private": false,
   "main": "src/App.tsx",
   "dependencies": {
+    "@monorepo/types": "1.0.0",
     "autoprefixer": "^10.4.2",
+    "axios": "^0.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "postcss": "^8.4.5",
     "postcss-inline-svg": "^5.0.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "@monorepo/types": "1.0.0",
-    "axios": "^0.25.0"
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@types/react": "^17.0.33",

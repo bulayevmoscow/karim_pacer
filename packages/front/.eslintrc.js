@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['plugin:react/recommended', 'plugin:react-hooks/recommended', 'xo'],
+  extends: ['plugin:react/recommended', 'plugin:react-hooks/recommended', 'xo', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -12,7 +12,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint', 'unused-imports'],
   rules: {
     'react/function-component-definition': [
       'error',
@@ -21,13 +21,28 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
+    'no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
     'react/react-in-jsx-scope': 'off',
     'import/prefer-default-export': 'off',
     'arrow-body-style': 'off',
-    'react/jsx-filename-extension': [1, { extensions: ['.jsx', 'tsx'] }],
-    'object-curly-spacing': [2, 'always'],
-    'object-curly-newline': ['error', 'always'],
-    'object-property-newline': 'error',
-    allowAllPropertiesOnSameLine: false,
+    'react/jsx-filename-extension': [
+      1,
+      {
+        extensions: ['.jsx', 'tsx'],
+      },
+    ],
+    allowAllPropertiesOnSameLine: 0,
   },
 }

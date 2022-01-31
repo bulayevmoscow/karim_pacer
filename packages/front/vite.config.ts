@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       '@modules': path.resolve(__dirname, './src/modules'),
       '@context': path.resolve(__dirname, './src/context/reducer.tsx'),
+      '@utils': path.resolve(__dirname, './src/utils'),
     },
   },
   server: {
@@ -19,6 +20,8 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
         ws: true,
+        proxyTimeout: 0,
+        timeout: 0,
       },
     },
   },

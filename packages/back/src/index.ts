@@ -12,7 +12,7 @@ const appData: TExternalData = {
   pathInfo: [
     { connected: false, status: 'IDLE' },
     { connected: false, status: 'IDLE' },
-    { connected: false, status: 'IDLE' },
+    { connected: true, status: 'PROGRESS' },
   ],
 }
 
@@ -38,7 +38,7 @@ app.post(
       } else if (req.body.action === 'DISCONNECT') {
         appData.pathInfo[Number(req.body.id)].connected = false
       } else {
-        throw 'Error!'
+        throw 'Error! ' + JSON.stringify(req.body)
       }
       res.status(200)
     } catch (e) {
@@ -55,8 +55,10 @@ app.post('/api/data', (req, res, next) => {
 })
 
 app.use('/api/*', (req: Request, res: Response, next: NextFunction) => {
-  // res.send(res.statusCode === 500 ? {} : appData);
-  res.send(appData)
+  // res.status(500).send()
+  // return
+  res.send(res.statusCode === 500 ? {} : appData)
+  // res.send(appData)
   next()
 })
 

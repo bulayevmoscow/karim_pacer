@@ -1,23 +1,39 @@
-import { useContext, useEffect } from 'react'
-import { MyContext, Request } from '@context'
+import { useContext, useEffect, useMemo } from 'react'
+import { MyContext } from '@context'
 import { TabHeader } from '@modules/body/TabHeader'
-import { BodyPathSwitcher } from '@modules/body/BodyPathSwitcher/BodyPathSwitcher'
+import { axiosConnectStatusInterseptor } from '@utils'
+import { BodyPath } from '@modules/body/BodyPathSwitcher/BodyPath'
+import { ModalErrorConnect } from '@modules/body/ModalError/ModalErrorIndex'
+import { useBody } from '@modules/body/useBody'
 
 export const Body = () => {
   const { state, dispatch } = useContext(MyContext)
-  const request = Request({
-    url: 'api/data',
-    payload: {},
+
+  const { fetchErrorHandler, pageNumber, refetchStatus, fetchData } = useBody({
+    state,
     dispatch,
   })
-  const pageNumber = state.appInfo.tab
+
+  useMemo(() => {
+    axiosConnectStatusInterseptor({
+      state,
+      dispatch,
+    })
+  }, [dispatch, state])
   useEffect(() => {
-    request()
+    fetchData()
   }, [])
   return (
     <div>
       <TabHeader />
-      {pageNumber === 3 ? <>TODOSETTING PAGE</> : <BodyPathSwitcher />}
+      <ModalErrorConnect
+        status={refetchStatus}
+        refetch={fetchErrorHandler}
+        isShow={state.appInfo.statusConnect !== 'CONNECTED'}
+        url={state.appInfo.errorConnect.url}
+        code={state.appInfo.errorConnect.code}
+      />
+      {pageNumber === 3 ? <>TODOSETTING PAGE</> : <BodyPath />}
     </div>
   )
 }
