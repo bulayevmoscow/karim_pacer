@@ -7,12 +7,6 @@ type TToggle = {
 }
 
 export const Toggle: FC<TToggle> = ({ value, dispatcher }) => {
-  // const ref = useRef<HTMLInputElement>(null)
-  // useLayoutEffect(() => {
-  //     ref?.current?.addEventListener('click', (e) => {
-  //         e.preventDefault()
-  //     })
-  // }, [ref])
   return (
     <label
       className={style.switch}
@@ -22,8 +16,8 @@ export const Toggle: FC<TToggle> = ({ value, dispatcher }) => {
         e.stopPropagation()
       }}
     >
-      <input type="checkbox" checked={value === true} onChange={dispatcher} />
-      <span className={`${style.slider} ${style.round}`} />
+      <input type="checkbox" checked={value === true} readOnly={true} />
+      <i></i>
     </label>
   )
 }
