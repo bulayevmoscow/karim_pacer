@@ -1,17 +1,12 @@
-type TTemplate = {
-  speed: number
-  distance: number
-  rest: number
-  temp: number
-  repeat: number
-}
+import { TTask } from '@monorepo/types'
 
 const storageItems = {
   default: 'default-template',
 } as const
 
-const TemplateTasks: TTemplate[] = [
+const TemplateTasks: Omit<TTask, 'active'>[] = [
   {
+    name: 'Интвервал 1',
     speed: 90,
     distance: 200,
     rest: 20,

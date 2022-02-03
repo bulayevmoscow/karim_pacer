@@ -1,5 +1,5 @@
 import React, { createContext, FC, useReducer } from 'react'
-import { TExternalData } from '@monorepo/types'
+import { TRequests, TExternalData } from '@monorepo/types'
 import axios, { AxiosResponse } from 'axios'
 
 export type TAction =
@@ -86,22 +86,12 @@ export const MyContext = createContext<{
   dispatch: () => {},
 })
 
-// Const requestLogging = (value: AxiosResponse) => {
-//   console.log(`${value.config.url}, ${value.status}`)
-//   return value
-// }
-
 export const createRequest = <T extends {}>({
   url,
   payload,
   dispatch,
-}: {
-  url: string
-  payload: T
-  dispatch: React.Dispatch<TAction>
-}) => {
+}: { dispatch: React.Dispatch<TAction> } & TRequests) => {
   return async () => {
-    console.log('12345')
     return axios.post<any, AxiosResponse<TExternalData>>(url, payload).then(x => {
       dispatch({
         type: 'updateDataFromServer',
@@ -114,7 +104,6 @@ export const createRequest = <T extends {}>({
 
 export const Provider: FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initionalData)
-
   return (
     <MyContext.Provider
       value={{

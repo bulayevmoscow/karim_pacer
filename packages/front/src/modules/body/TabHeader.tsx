@@ -1,8 +1,10 @@
 import style from './TabHeaderStyle.module.pcss'
-import { useContext } from 'react'
+import { FC, useContext } from 'react'
 import { MyContext } from '@context'
 
-export const TabHeader = () => {
+type TTTabHeader = {}
+
+export const TabHeader: FC<TTTabHeader> = () => {
   const { state, dispatch } = useContext(MyContext)
   const activeTab = state.appInfo.tab
 

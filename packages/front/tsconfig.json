@@ -19,7 +19,7 @@
     "paths": {
       "@modules/*": ["src/modules/*"],
       "@context": ["src/context/reducer.tsx"],
-      "@utils": ["src/utils/index.ts"]
+      "@utils/*": ["src/utils/*"]
     }
   },
   "include": ["./src"]
