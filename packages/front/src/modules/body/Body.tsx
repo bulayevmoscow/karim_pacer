@@ -22,9 +22,10 @@ export const Body = () => {
   }, [dispatch, state])
   useEffect(() => {
     fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <div>
+    <>
       <TabHeader />
       <ModalErrorConnect
         status={refetchStatus}
@@ -34,6 +35,6 @@ export const Body = () => {
         code={state.appInfo.errorConnect.code}
       />
       {pageNumber === 3 ? <>TODOSETTING PAGE</> : <BodyPath />}
-    </div>
+    </>
   )
 }
