@@ -10,7 +10,8 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "build:front": "lerna run build --stream --scope=@monorepo/front",
-    "start:front": "lerna run start --stream --scope=@monorepo/front",
+    "start:front": "lerna run dev --stream --scope=@monorepo/front",
+    "start:back": "lerna run run --stream --scope=@monorepo/back",
     "test:back": "lerna exec \"npx jest\" --stream --scope=@monorepo/back",
     "prepare": "husky install",
     "lint:check": "prettier --check .",
