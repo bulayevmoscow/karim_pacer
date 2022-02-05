@@ -9,26 +9,31 @@ import IconTempo from '@modules/icons/unit/tempo.png'
 
 import style from './TrackUnit.module.scss'
 import { TFaceSubHeader } from '@modules/library/Typeface'
-type TTrackUnit = {
-  speed: number
-  distance: number
-  rest: number
-  repeat: number
-  tempo: number
+
+export type TTrackUnit = {
+  name: string
+  speed?: number
+  distance?: number
+  rest?: number
+  repeat?: number
+  tempo?: number
+  progress?: number
 }
 
-export const TrackUnit: FC<TTrackUnit> = ({ distance, rest, speed, tempo, repeat }) => {
+export const TrackUnit: FC<TTrackUnit> = ({ distance, rest, speed, tempo, repeat, name, progress }) => {
+  const disabledStatus = (distance ?? rest ?? speed ?? tempo ?? repeat ?? false) === false
+  console.log(progress)
   return (
     <div className={style.track_container}>
       <div className={style.track_header}>
-        <TFaceSubHeader>Дорожка 1</TFaceSubHeader>
+        <TFaceSubHeader>{name}</TFaceSubHeader>
         <div className={style.icons_container}>
           <img src={IconEdit} alt="" />
           <img src={IconDelete} alt="" />
         </div>
       </div>
 
-      <div className={style.track_data_container}>
+      <div className={`${style.track_data_container} ${disabledStatus ? style.disabled : ''}`}>
         <div className={style.unit}>
           <img src={IconSpeed} alt="" />
           {speed}
@@ -54,10 +59,15 @@ export const TrackUnit: FC<TTrackUnit> = ({ distance, rest, speed, tempo, repeat
           {tempo}
         </div>
       </div>
-      <div
-        className={style.track_progressbar}
-        style={{ background: `linear-gradient(90deg, #A8E4E8 50%, transparent 50%)` }}
-      />
+
+      {progress !== undefined && (
+        <div
+          className={style.track_progressbar}
+          style={{
+            backgroundSize: `${progress}%, 0px, 0%`,
+          }}
+        />
+      )}
     </div>
   )
 }

@@ -21,3 +21,11 @@ export type TModalManager =
       code: number
       url: string
     }
+
+export type TLanesInfo =
+  | {
+      id: number
+      name: string
+      interval?: { speed: number; distance: number; rest: number; repeat: number; tempo: number; progress: number }
+    }[]
+  | []

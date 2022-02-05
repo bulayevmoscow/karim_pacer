@@ -14,6 +14,7 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'unused-imports'],
   rules: {
+    'no-return-assign': 'off',
     'react/function-component-definition': [
       'error',
       {

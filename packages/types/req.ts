@@ -16,7 +16,7 @@ export type TTrack = {
   connected: boolean
   state: 'IDLE' | 'PPROGRESS'
   progress: number
-  intervals: TInterval[] | TInterval | []
+  intervals: TInterval[] | []
 }
 
 // варианты запросов на сервер
@@ -110,7 +110,7 @@ const taskShort: TTrack = {
   connected: true,
   state: 'IDLE',
   progress: 0,
-  intervals: interval,
+  intervals: [interval],
 }
 
 const templates: TTrack[] = [
@@ -121,7 +121,7 @@ const templates: TTrack[] = [
 ]
 
 const simpleData: TTrack[] = [
-  { ...taskShort, id: 0, state: 'PPROGRESS', intervals: intervalInProgress },
+  { ...taskShort, id: 0, state: 'PPROGRESS', intervals: [intervalInProgress] },
   { ...taskShort, id: 1, state: 'IDLE' },
   { ...taskShort, id: 2, connected: false },
 ]

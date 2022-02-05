@@ -38,7 +38,14 @@
       }
     }
   }
+  &_data_container.disabled {
+    img {
+      opacity: 0.15;
+    }
+  }
   &_progressbar {
+    background: linear-gradient(90deg, rgb(168, 228, 232), rgb(168, 228, 232)) no-repeat;
+    transition: 0.7s;
     height: 8px;
     width: 100%;
     position: absolute;
