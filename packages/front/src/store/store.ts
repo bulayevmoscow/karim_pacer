@@ -1,34 +1,43 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, spy } from 'mobx'
+import { TModalManager, TNavigation } from './storeTypes'
 
 class TodoStore {
-  tick = 5
-  name: string = 'keeeeku'
-  that = this
-
-  get getTickList() {
-    return 'Total: ' + this.tick
-  }
-
-  constructor() {
+  constructor(
+    public page: TNavigation = { pageTag: 'main', title: 'Дорожки' },
+    public ModalManager: TModalManager = {}
+  ) {
     makeAutoObservable(this, {}, { autoBind: true })
   }
 
-  clearName() {
-    console.log(this)
-    this.name = ''
-  }
+  goToPage = (page: TNavigation['pageTag']) => {
+    switch (page) {
+      case 'main':
+        this.page = {
+          pageTag: 'main',
+          title: 'Дорожки',
+        }
+        break
 
-  incrTick = () => {
-    this.tick++
-  }
+      case 'setting': {
+        this.page = {
+          pageTag: 'setting',
+          title: 'Настройки',
+        }
+        break
+      }
 
-  arrow = () => {
-    console.log(this)
-  }
-
-  noarrow() {
-    console.log(this)
+      default:
+        break
+    }
   }
 }
 
 export default new TodoStore()
+
+if (import.meta.env.MODE === 'development') {
+  spy(event => {
+    if (event.type === 'action') {
+      console.log(`${event.name} with args: ${JSON.stringify(event.arguments)}`)
+    }
+  })
+}

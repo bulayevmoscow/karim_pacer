@@ -1,16 +1,17 @@
-import store from '@store'
 import { observer } from 'mobx-react-lite'
-import makeInspectable from 'mobx-devtools-mst'
 import { Footer } from '@modules/components/footer/Footer'
-
-if (import.meta.env.MODE === 'development') {
-  makeInspectable(store)
-}
+import { Tracks } from '@modules/components/tracks/Tracks'
+import { Header } from '@modules/components/header/Header'
+import style from './index.module.scss'
+import store from '@store'
 
 export const Index = observer(() => {
+  const { page } = store
   return (
-    <>
+    <div className={style.app_container}>
+      <Header />
+      {page?.pageTag === 'main' && <Tracks />}
       <Footer />
-    </>
+    </div>
   )
 })

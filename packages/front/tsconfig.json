@@ -17,10 +17,12 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "@": ["src/*"],
       "@modules/*": ["src/modules/*"],
       "@context": ["src/store/reducer.tsx"],
       "@store": ["src/store/store.ts"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@library": ["src/modules/library/*"]
     }
   },
   "include": ["./src"]

@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import ReactDOM from 'react-dom'
 import style from './Modal.module.pcss'
-import { ProgressBar } from '@modules/library/ProgressBar'
 
 type TModal = {
   isOpen: boolean
@@ -38,7 +37,7 @@ export const ModalErrorConnectModule: FC<TModalErrorConnect> = ({ refetch, code,
           [{code}] {url}
         </div>
       )}
-      {!status ? <button onClick={refetch}>Попробовать подключиться?</button> : <ProgressBar />}
+      {!status ? <button onClick={refetch}>Попробовать подключиться?</button> : null}
     </>
   )
 }

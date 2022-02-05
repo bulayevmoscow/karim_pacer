@@ -1,0 +1,49 @@
+.track {
+  &_container {
+    display: flex;
+    flex-direction: column;
+    background: #f8f8f8;
+    border-radius: 11px;
+    padding: 12px 21px 21px 21px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .icons_container {
+      img {
+        margin-left: 17px;
+      }
+    }
+  }
+
+  &_data_container {
+    display: flex;
+    padding-top: 24px;
+    .unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1 1 auto;
+      padding: 0 10px;
+
+      img {
+        height: 50px;
+        width: 50px;
+        padding-bottom: 7px;
+      }
+    }
+  }
+  &_progressbar {
+    height: 8px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: 99;
+  }
+}

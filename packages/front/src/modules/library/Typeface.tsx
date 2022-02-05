@@ -1,33 +1,26 @@
 import { FC } from 'react'
-import style from './Typeface.module.pcss'
-
+import style from './Typeface.module.scss'
 type TTypeFace = {
   className?: string
   align?: 'left' | 'right' | 'center'
 }
 
-export const IntervalHeading: FC<TTypeFace> = ({ children, className, align = 'left' }) => {
+export const TFaceHeader: FC<TTypeFace> = ({ align = 'left', className, children }) => {
+  if (!children) {
+    return null
+  }
+
   return (
-    <h2
-      className={`${style.IntervalHeading} ${className ?? ''}`}
-      style={{
-        textAlign: align,
-      }}
-    >
+    <h2 style={{ textAlign: align }} className={`${style.resetMargin} ${style.nav_header} ${className ?? ''}`}>
       {children}
     </h2>
   )
 }
 
-export const IntervalPropertyList: FC<TTypeFace> = ({ children, className, align = 'left' }) => {
+export const TFaceSubHeader: FC<TTypeFace> = ({ align, className, children }) => {
   return (
-    <div
-      className={`${style.IntervalPropertyList} ${className ?? ''}`}
-      style={{
-        textAlign: align,
-      }}
-    >
+    <h3 style={{ textAlign: align }} className={`${style.resetMargin} ${style.sub_header} ${className ?? ''}`}>
       {children}
-    </div>
+    </h3>
   )
 }

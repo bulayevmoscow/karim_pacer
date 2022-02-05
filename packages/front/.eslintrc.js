@@ -21,6 +21,7 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'capitalized-comments': 'off',
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
     'no-unused-vars': 'off',
