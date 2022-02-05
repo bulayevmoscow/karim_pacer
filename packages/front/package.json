@@ -29,7 +29,12 @@
     "eslint-config-xo": "^0.39.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "mobx": "^6.3.13",
+    "mobx-devtools-mst": "^0.9.30",
+    "mobx-react-lite": "^3.2.3",
+    "mobx-state-tree": "^5.1.1",
     "prettier": "2.5.1",
+    "sass": "^1.49.7",
     "typescript": "^4.4.4",
     "vite": "^2.7.2"
   }

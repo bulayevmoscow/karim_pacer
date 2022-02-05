@@ -9,7 +9,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@modules': path.resolve(__dirname, './src/modules'),
-      '@context': path.resolve(__dirname, './src/context/reducer.tsx'),
+      '@context': path.resolve(__dirname, './src/store/reducer.tsx'),
+      '@store': path.resolve(__dirname, './src/store/store.ts'),
       '@utils': path.resolve(__dirname, './src/utils'),
     },
   },

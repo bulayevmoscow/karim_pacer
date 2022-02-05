@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@modules/*": ["src/modules/*"],
-      "@context": ["src/context/reducer.tsx"],
+      "@context": ["src/store/reducer.tsx"],
+      "@store": ["src/store/store.ts"],
       "@utils/*": ["src/utils/*"]
     }
   },

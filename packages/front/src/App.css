@@ -1,5 +1,4 @@
 body {
-  background-color: #9a9a9a;
 }
 
 body > #root {
@@ -7,7 +6,7 @@ body > #root {
   height: 100vh;
   padding: 13px;
   box-sizing: border-box;
-  /*overflow: hidden;*/
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }

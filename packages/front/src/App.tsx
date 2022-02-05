@@ -1,14 +1,9 @@
 import './App.css'
-import { Body } from '@modules/body/Body'
+import { Index } from '@modules/components/Index'
 import React from 'react'
-import { Provider } from '@context'
 
 const App = () => {
-  return (
-    <Provider>
-      <Body />
-    </Provider>
-  )
+  return <Index />
 }
 
 export default App
