@@ -1,0 +1,28 @@
+.button {
+  padding: 12px 42px;
+  border-radius: 7px;
+  border: none;
+  font-family: var(--font-medium);
+  font-size: 16px;
+  line-height: 19px;
+  &:disabled {
+    color: black;
+    opacity: 0.4;
+  }
+  &_grey {
+    background: #ededed;
+    color: var(--font-color-half-black);
+  }
+  &_red {
+    background: #fb8888;
+    color: white;
+  }
+  &_blue {
+    background: #4c7bf5;
+    color: white;
+  }
+  &_green {
+    background: #92e59b;
+    color: white;
+  }
+}

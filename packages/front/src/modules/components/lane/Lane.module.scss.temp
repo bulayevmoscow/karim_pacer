@@ -7,7 +7,6 @@
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    flex-grow: 1;
     .tracks_list {
       margin: 32px 16px;
       > * {
@@ -16,8 +15,6 @@
     }
   }
   &_buttons_container {
-    margin: 15px 16px 13px 16px;
-    display: flex;
-    justify-content: space-between;
+    background-color: red;
   }
 }

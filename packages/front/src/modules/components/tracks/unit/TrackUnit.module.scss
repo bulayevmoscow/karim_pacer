@@ -4,9 +4,11 @@
     flex-direction: column;
     background: #f8f8f8;
     border-radius: 11px;
-    padding: 12px 21px 21px 21px;
+    padding: 15px 20px;
     position: relative;
     overflow: hidden;
+    border: 3px solid;
+    transition: 0.2s;
   }
 
   &_header {
@@ -14,6 +16,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
     .icons_container {
       img {
         margin-left: 17px;
@@ -23,7 +26,8 @@
 
   &_data_container {
     display: flex;
-    padding-top: 24px;
+    padding-top: 13px;
+
     .unit {
       display: flex;
       flex-direction: column;
@@ -38,19 +42,15 @@
       }
     }
   }
-  &_data_container.disabled {
-    img {
-      opacity: 0.15;
-    }
-  }
+
   &_progressbar {
     background: linear-gradient(90deg, rgb(168, 228, 232), rgb(168, 228, 232)) no-repeat;
     transition: 0.7s;
-    height: 8px;
+    height: 6px;
     width: 100%;
     position: absolute;
-    bottom: 0px;
-    left: 0px;
+    bottom: 0;
+    left: 0;
     z-index: 99;
   }
 }

@@ -26,6 +26,7 @@ export type TLanesInfo =
   | {
       id: number
       name: string
+      status: boolean
       interval?: { speed: number; distance: number; rest: number; repeat: number; tempo: number; progress: number }
     }[]
   | []

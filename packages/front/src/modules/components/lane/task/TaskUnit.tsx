@@ -7,10 +7,10 @@ import IconRest from '@modules/icons/unit/rest.png'
 import IconRepeat from '@modules/icons/unit/repeat.png'
 import IconTempo from '@modules/icons/unit/tempo.png'
 
-import style from './TrackUnit.module.scss'
+import style from './Task.module.scss'
 import { TFaceSubHeader } from '@modules/library/Typeface'
 
-export type TTrackUnit = {
+export type TTackUnit = {
   name: string
   speed?: number
   distance?: number
@@ -20,7 +20,7 @@ export type TTrackUnit = {
   progress?: number
 }
 
-export const TrackUnit: FC<TTrackUnit> = ({ distance, rest, speed, tempo, repeat, name, progress }) => {
+export const TaskUnit: FC<TTackUnit> = ({ distance, rest, speed, tempo, repeat, name, progress }) => {
   const disabledStatus = (distance ?? rest ?? speed ?? tempo ?? repeat ?? false) === false
   console.log(progress)
   return (

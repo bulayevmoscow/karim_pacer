@@ -12,19 +12,25 @@ class TodoStore {
       {
         id: 0,
         name: 'Дорожка 13',
+        status: true,
         interval: {
           speed: 90,
           distance: 500,
           rest: 20,
           repeat: 2,
           tempo: 400,
-          progress: 0,
+          progress: 30,
         },
       },
-
       {
+        status: true,
         id: 1,
         name: 'Дорожка 2',
+      },
+      {
+        status: false,
+        id: 2,
+        name: 'Дорожка 3',
       },
     ]
   ) {
@@ -64,6 +70,12 @@ class TodoStore {
     }
   }
 
+  toggleLaneStatus = (laneId: number, action: 'OFF' | 'ON') => {
+    const lane = this.lanesInfo[laneId]
+    if (lane) {
+      lane.status = action === 'ON'
+    }
+  }
   // Данные о странице
 }
 
