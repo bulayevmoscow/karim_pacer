@@ -1,12 +1,13 @@
 import { makeAutoObservable, runInAction, spy } from 'mobx'
-import { TLanesInfo, TModalManager, TNavigation } from './storeTypes'
+import { TLaneInfo, TLanesInfo, TModalManager, TNavigation } from './storeTypes'
 
 // eslint-disable-next-line no-promise-executor-return
 const TIMEOUT = (time: number = 1000) => new Promise<void>(resolve => setTimeout(resolve, time))
 
 class TodoStore {
   constructor(
-    public page: TNavigation = { pageTag: 'main', title: 'Дорожки' },
+    // public page: TNavigation = { pageTag: 'main', title: 'Дорожки' },
+    public page: TNavigation = { pageTag: 'lane', title: 'Дорожка', idLine: 0 },
     public modalManager: TModalManager = {},
     public lanesInfo: TLanesInfo = [
       {
@@ -32,11 +33,37 @@ class TodoStore {
         id: 2,
         name: 'Дорожка 3',
       },
-    ]
+    ],
+    public laneInfo: TLaneInfo = {
+      id: 0,
+      isLoading: false,
+      isRunning: true,
+      intervals: [
+        {
+          name: 'some interval',
+          speed: 90,
+          distance: 500,
+          rest: 20,
+          repeat: 2,
+          tempo: 400,
+          progress: 30,
+        },
+        {
+          name: 'some interval2',
+          speed: 90,
+          distance: 500,
+          rest: 20,
+          repeat: 2,
+          tempo: 400,
+          progress: 30,
+        },
+      ],
+    }
   ) {
     makeAutoObservable(this, {}, { autoBind: true })
   }
 
+  // Extract<TRequests, { url: 'api/trackconnect' }>['payload']
   // Смена страницы
   goToPage = (page: TNavigation['pageTag']) => {
     switch (page) {
@@ -60,6 +87,14 @@ class TodoStore {
     }
   }
 
+  goToLane = (pageNumber: Extract<TNavigation, { title: 'Дорожка' }>['idLine']) => {
+    this.page = {
+      pageTag: 'lane',
+      title: 'Дорожка',
+      idLine: pageNumber,
+    }
+  }
+
   setInt = async () => {
     const { interval } = this.lanesInfo[1]
     if (interval) {
@@ -79,7 +114,8 @@ class TodoStore {
   // Данные о странице
 }
 
-export default new TodoStore()
+const store = new TodoStore()
+export default store
 
 if (import.meta.env.MODE === 'development') {
   spy(event => {
