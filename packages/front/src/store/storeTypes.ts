@@ -22,7 +22,8 @@ export type TModalManager =
       url: string
     }
 
-type TInterval = {
+export type TInterval = {
+  name: string
   speed: number
   distance: number
   rest: number
@@ -36,7 +37,7 @@ export type TLanesInfo =
       id: number
       name: string
       status: boolean
-      interval?: TInterval
+      interval?: Omit<TInterval, 'name'>[]
     }[]
   | []
 

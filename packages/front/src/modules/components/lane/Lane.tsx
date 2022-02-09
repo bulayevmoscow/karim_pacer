@@ -2,10 +2,12 @@ import { observer } from 'mobx-react-lite'
 import store from '@store'
 import style from './Lane.module.scss'
 import IconLoading from '@modules/icons/progress.png'
+import { TaskUnit } from '@modules/components/lane/task/TaskUnit'
 // import { TrackUnit } from '@modules/components/tracks/unit/TrackUnit'
 
 export const Lane = observer(() => {
-  const { laneInfo, page } = store
+  const { laneInfo } = store
+
   if (laneInfo.isLoading) {
     return (
       <div className={style.tracks}>
@@ -18,25 +20,31 @@ export const Lane = observer(() => {
     )
   }
 
+  // Если есть активные задачи
   return (
     <div className={style.tracks}>
       <div className={style.tracks_container}>
-        <div className={style.tracks_list}>{JSON.stringify(laneInfo)}</div>
+        <div className={style.tracks_list}>
+          {laneInfo.intervals?.map((lane, index) => (
+            <TaskUnit
+              key={index}
+              tempo={lane.tempo}
+              repeat={lane.repeat}
+              rest={lane.rest}
+              distance={lane.distance}
+              speed={lane.speed}
+              progress={lane.progress}
+              name={lane.name}
+              isShutdown={false}
+              onClick={() => undefined}
+              isClick={true}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )
 })
-
-//          {laneInfo?.map(lane => (
-//             <TrackUnit
-//               key={lane.id}
-//               {...lane.interval}
-//               name={lane.name}
-//               isShutdown={!lane.status}
-//               onClick={eventStart(() => (showButtonPanel === lane.id ? undefined : setShowButtonPanel(lane.id)))}
-//               isClick={lane.id === showButtonPanel}
-//             />
-//           ))}
 
 //      {showButtonPanel !== false && (
 //         <div className={style.tracks_buttons_container}>

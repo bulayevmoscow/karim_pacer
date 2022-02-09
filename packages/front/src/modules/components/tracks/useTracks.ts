@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import store from '@store'
 
 export const useTracks = () => {
-  const { lanesInfo } = store
-  const [showButtonPanel, setShowButtonPanel] = useState<number | false>(0)
+  const { lanesInfo, goToLane } = store
+  const [showButtonPanel, setShowButtonPanel] = useState<number | false>(false)
   useEffect(() => {
     const event = () => {
       if (showButtonPanel !== false) {
@@ -33,5 +33,6 @@ export const useTracks = () => {
     showButtonPanel,
     setShowButtonPanel,
     eventStart,
+    goToLane,
   }
 }

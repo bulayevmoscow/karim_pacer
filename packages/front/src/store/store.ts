@@ -1,5 +1,8 @@
 import { makeAutoObservable, runInAction, spy } from 'mobx'
-import { TLaneInfo, TLanesInfo, TModalManager, TNavigation } from './storeTypes'
+import { TInterval, TLaneInfo, TLanesInfo, TModalManager, TNavigation } from './storeTypes'
+import { TRequests } from '@monorepo/types'
+
+import axios from 'axios'
 
 // eslint-disable-next-line no-promise-executor-return
 const TIMEOUT = (time: number = 1000) => new Promise<void>(resolve => setTimeout(resolve, time))
@@ -34,31 +37,7 @@ class TodoStore {
         name: 'Дорожка 3',
       },
     ],
-    public laneInfo: TLaneInfo = {
-      id: 0,
-      isLoading: false,
-      isRunning: true,
-      intervals: [
-        {
-          name: 'some interval',
-          speed: 90,
-          distance: 500,
-          rest: 20,
-          repeat: 2,
-          tempo: 400,
-          progress: 30,
-        },
-        {
-          name: 'some interval2',
-          speed: 90,
-          distance: 500,
-          rest: 20,
-          repeat: 2,
-          tempo: 400,
-          progress: 30,
-        },
-      ],
-    }
+    public laneInfo = {} as TLaneInfo
   ) {
     makeAutoObservable(this, {}, { autoBind: true })
   }
@@ -87,12 +66,53 @@ class TodoStore {
     }
   }
 
+  getShortData = () => {
+    type TReq = Extract<TRequests, { url: 'api/shortdata' }>['res']
+    axios.post<TReq>('api/shortdata').then(res => {
+      const { data } = res
+      runInAction(() => {
+        const a: TLanesInfo = data.map(serverData => {
+          return {
+            id: serverData.id,
+            name: serverData?.name ?? 'noname',
+            status: serverData?.state !== 'PPROGRESS',
+            interval: serverData.intervals ?? [],
+          }
+        })
+        this.lanesInfo = a
+      })
+    })
+  }
+
   goToLane = (pageNumber: Extract<TNavigation, { title: 'Дорожка' }>['idLine']) => {
-    this.page = {
-      pageTag: 'lane',
-      title: 'Дорожка',
-      idLine: pageNumber,
-    }
+    runInAction(() => {
+      // Изменияем страницу
+      this.page = {
+        pageTag: 'lane',
+        title: 'Дорожка',
+        idLine: pageNumber,
+      }
+      // Делаем дефолтные настройки страницы
+      this.laneInfo = {
+        id: pageNumber,
+        intervals: [],
+        isRunning: false,
+        isLoading: true,
+      }
+    })
+    setTimeout(() => (this.laneInfo.isLoading = false), 1000)
+  }
+
+  getTemplates = async () => {
+    // eslint-disable-next-line new-cap
+    await TIMEOUT(3000)
+    axios
+      .get<TInterval[]>('/task_templates.json')
+      .then(data => {
+        console.log(data)
+        this.laneInfo.intervals = data.data
+      })
+      .finally(() => (this.laneInfo.isLoading = false))
   }
 
   setInt = async () => {
@@ -120,7 +140,7 @@ export default store
 if (import.meta.env.MODE === 'development') {
   spy(event => {
     if (event.type === 'action') {
-      console.log(`${event.name} with args: ${JSON.stringify(event.arguments)}`)
+      // console.log(`${event.name} with args: ${JSON.stringify(event.arguments)}`)
     }
   })
 }

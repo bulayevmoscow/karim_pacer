@@ -39,8 +39,8 @@ export const TaskUnit: FC<TTaskUnit> = ({
   const shutdownStatus = isShutdown || disabledStatus
   const borderColor = (isClick && ((isShutdown && '#FB8888') || '#92E59B')) || 'transparent'
   return (
-    <div className={style.track_container} onClick={onClick} style={{ borderColor }}>
-      <div className={style.track_header}>
+    <div className={style.lane_container} onClick={onClick} style={{ borderColor }}>
+      <div className={style.lane_header}>
         <TFaceSubHeader>{name}</TFaceSubHeader>
         <div className={style.icons_container}>
           <img src={IconDelete} alt="" />
@@ -48,7 +48,7 @@ export const TaskUnit: FC<TTaskUnit> = ({
         </div>
       </div>
       {shutdownStatus ? undefined : (
-        <div className={`${style.track_data_container}`}>
+        <div className={`${style.lane_data_container}`}>
           <div className={style.unit}>
             <img src={IconSpeed} alt="" />
             {speed}

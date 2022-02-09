@@ -1,6 +1,6 @@
 // Вид одного интервала
 export type TInterval = {
-  id: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+  id: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
   speed: number
   distance: number
   rest: number
@@ -22,12 +22,12 @@ export type TTrack = {
 // варианты запросов на сервер
 export type TRequests =
   | {
-      url: 'api/shortData'
-      payload: {}
-      res: TTrack[] // пример simpleData
+      url: 'api/shortdata'
+      payload: undefined
+      res: TTrack[] | [] // пример simpleData
     }
   | {
-      url: 'api/trackConnect'
+      url: 'api/trackconnect'
       payload: {
         id: number
         status: boolean

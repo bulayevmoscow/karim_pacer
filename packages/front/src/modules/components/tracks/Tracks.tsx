@@ -6,7 +6,8 @@ import { useTracks } from '@modules/components/tracks/useTracks'
 import store from '@store'
 
 export const Tracks = observer(() => {
-  const { setShowButtonPanel, showButtonPanel, lanesInfo, eventStart } = useTracks()
+  const { setShowButtonPanel, showButtonPanel, lanesInfo, eventStart, goToLane } = useTracks()
+  console.log(JSON.parse(JSON.stringify(lanesInfo)))
   return (
     <div className={style.tracks}>
       <div className={style.tracks_container}>
@@ -49,6 +50,7 @@ export const Tracks = observer(() => {
           <Button
             color="gray"
             onClick={e => {
+              goToLane(0)
               e.stopPropagation()
             }}
           >

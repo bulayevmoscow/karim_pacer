@@ -25,5 +25,6 @@
       "@library": ["src/modules/library/*"]
     }
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["./templates"]
 }

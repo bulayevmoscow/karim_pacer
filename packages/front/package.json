@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "npm run taskTemplates && tsc && vite build",
+    "preview": "vite preview",
+    "taskTemplates": "npx ts-node --skipProject templates/tempatesOfTasks.ts > public/task_templates.json",
+    "archive": "zip -r front.zip dist"
   },
   "private": false,
   "main": "src/App.tsx",
@@ -16,9 +18,9 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "postcss": "^8.4.5",
     "postcss-inline-svg": "^5.0.0",
+    "qs": "^6.10.3",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-query": "^3.34.14"
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@types/react": "^17.0.33",
@@ -35,6 +37,7 @@
     "normalize.css": "^8.0.1",
     "prettier": "2.5.1",
     "sass": "^1.49.7",
+    "ts-node": "^10.5.0",
     "typescript": "^4.4.4",
     "vite": "^2.7.2"
   }
