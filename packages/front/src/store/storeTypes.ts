@@ -37,7 +37,7 @@ export type TLanesInfo =
       id: number
       name: string
       status: boolean
-      interval?: Omit<TInterval, 'name'>[]
+      interval?: Omit<TInterval, 'name'>
     }[]
   | []
 

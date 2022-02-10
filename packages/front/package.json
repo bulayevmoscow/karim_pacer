@@ -6,7 +6,7 @@
     "build": "npm run taskTemplates && tsc && vite build",
     "preview": "vite preview",
     "taskTemplates": "npx ts-node --skipProject templates/tempatesOfTasks.ts > public/task_templates.json",
-    "archive": "zip -r front.zip dist"
+    "archive": "rm -rf front.zip && zip -r front.zip dist"
   },
   "private": false,
   "main": "src/App.tsx",

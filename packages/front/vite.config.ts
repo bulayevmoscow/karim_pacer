@@ -5,7 +5,7 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react({ jsxRuntime: 'classic' })],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -27,7 +27,18 @@ export default defineConfig({
       },
     },
   },
+  esbuild: {
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
+  },
   build: {
-    cssCodeSplit: false,
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        entryFileNames: '[name].js',
+        assetFileNames: 'assets/[name].[ext]',
+        chunkFileNames: '[name].js',
+      },
+    },
   },
 })

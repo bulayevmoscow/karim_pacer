@@ -76,7 +76,6 @@ class TodoStore {
             id: serverData.id,
             name: serverData?.name ?? 'noname',
             status: serverData?.state !== 'PPROGRESS',
-            interval: serverData.intervals ?? [],
           }
         })
         this.lanesInfo = a
