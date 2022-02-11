@@ -1,12 +1,12 @@
 // Вид одного интервала
 export type TInterval = {
-  id: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+  id: number
   speed: number
   distance: number
   rest: number
   temp: number
   repeat: number
-  progress?: number
+  progress: number
 }
 
 // Вид Задачи дорожки

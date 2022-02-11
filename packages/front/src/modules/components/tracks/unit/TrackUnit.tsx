@@ -17,7 +17,7 @@ export type TTrackUnit = {
   distance?: number
   rest?: number
   repeat?: number
-  tempo?: number
+  temp?: number
   progress?: number
   onClick?: (e: any) => void
   isClick: boolean
@@ -27,7 +27,7 @@ export const TrackUnit: FC<TTrackUnit> = ({
   distance,
   rest,
   speed,
-  tempo,
+  temp,
   repeat,
   name,
   progress,
@@ -37,7 +37,7 @@ export const TrackUnit: FC<TTrackUnit> = ({
 }) => {
   // eslint-disable-next-line no-warning-comments
   // TODO сделать типографию
-  const disabledStatus = (distance ?? rest ?? speed ?? tempo ?? repeat ?? false) === false
+  const disabledStatus = (distance ?? rest ?? speed ?? temp ?? repeat ?? false) === false
   const shutdownStatus = isShutdown || disabledStatus
   const borderColor = (isClick && ((isShutdown && '#FB8888') || '#92E59B')) || 'transparent'
   return (
@@ -72,7 +72,7 @@ export const TrackUnit: FC<TTrackUnit> = ({
 
           <div className={style.unit}>
             <img src={IconTempo} alt="" />
-            {tempo}
+            {temp}
           </div>
         </div>
       )}

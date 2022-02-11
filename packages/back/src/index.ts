@@ -12,42 +12,6 @@ const port = process.env.PORT ?? 3005
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-const tracks: TTrack[] = [
-  {
-    id: 0,
-    name: 'Дорожка 0',
-    state: 'IDLE',
-    progress: 0,
-    connected: true,
-    intervals: [],
-  },
-]
-
-const lanesInfo = [
-  {
-    id: 0,
-    status: true,
-    interval: {
-      speed: 90,
-      distance: 500,
-      rest: 20,
-      repeat: 2,
-      tempo: 400,
-      progress: 30,
-    },
-  },
-  {
-    status: true,
-    id: 1,
-    name: 'Дорожка 2',
-  },
-  {
-    status: false,
-    id: 2,
-    name: 'Дорожка 3',
-  },
-]
-
 const appData: { tracks: TTrack[] } = {
   tracks: [
     {
@@ -56,17 +20,18 @@ const appData: { tracks: TTrack[] } = {
       state: 'IDLE',
       progress: 0,
       connected: true,
-      intervals: [
-        {
-          id: 0,
-          speed: 90,
-          distance: 500,
-          rest: 20,
-          repeat: 2,
-          temp: 400,
-          progress: 30,
-        },
-      ],
+      intervals:
+        [
+          {
+            id: 0,
+            speed: 90,
+            distance: 500,
+            rest: 20,
+            repeat: 2,
+            temp: 400,
+            progress: 30,
+          },
+        ] || [],
     },
     {
       id: 1,
@@ -114,9 +79,8 @@ app.post(
     res: Response<Extract<TRequests, { url: 'api/shortdata' }>['res']>,
     next: NextFunction
   ) => {
-    const resBody: Extract<TRequests, { url: 'api/shortdata' }>['res'] = [...appData.tracks]
-    resBody.forEach(lane => {
-      lane.intervals = lane.intervals.filter(laneItem => laneItem.id === 0)
+    const resBody: Extract<TRequests, { url: 'api/shortdata' }>['res'] = appData.tracks.map((value, index) => {
+      return { ...value, id: index }
     })
     res.status(200).json(resBody)
   }

@@ -12,7 +12,7 @@ export const Index = observer(() => {
   const { page } = store
   useEffect(() => {
     store.getShortData()
-  })
+  }, [])
   return (
     <div className={style.app_container}>
       <Header />
