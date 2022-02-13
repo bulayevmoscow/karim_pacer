@@ -12,21 +12,23 @@ export const Tracks = observer(() => {
     <div className={style.tracks}>
       <div className={style.tracks_container}>
         <div className={style.tracks_list}>
-          {lanesInfo?.map(lane => (
-            <TrackUnit
-              key={lane.id}
-              {...lane.interval}
-              name={lane.name}
-              isShutdown={!lane.status}
-              onClick={eventStart(() => (showButtonPanel === lane.id ? undefined : setShowButtonPanel(lane.id)))}
-              isClick={lane.id === showButtonPanel}
-            />
-          ))}
+          {lanesInfo?.length > 0 &&
+            lanesInfo.map(lane => (
+              <TrackUnit
+                key={lane.id}
+                name={lane.name ?? 'Дорожка'}
+                isDiconnected={!lane.connected}
+                {...lane.intervals[0]}
+                progress={lane.progress}
+                onClick={eventStart(() => (showButtonPanel === lane.id ? undefined : setShowButtonPanel(lane.id)))}
+                isClick={lane.id === showButtonPanel}
+              />
+            ))}
         </div>
       </div>
       {showButtonPanel !== false && (
         <div className={style.tracks_buttons_container}>
-          {lanesInfo[showButtonPanel].status ? (
+          {lanesInfo[showButtonPanel].connected ? (
             <Button
               color="red"
               onClick={e => {

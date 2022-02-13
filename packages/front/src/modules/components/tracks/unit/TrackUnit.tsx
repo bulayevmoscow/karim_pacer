@@ -12,7 +12,7 @@ import { TFaceSubHeader } from '@modules/library/Typeface'
 
 export type TTrackUnit = {
   name: string
-  isShutdown: boolean
+  isDiconnected: boolean
   speed?: number
   distance?: number
   rest?: number
@@ -31,21 +31,21 @@ export const TrackUnit: FC<TTrackUnit> = ({
   repeat,
   name,
   progress,
-  isShutdown,
+  isDiconnected,
   onClick,
   isClick = false,
 }) => {
   // eslint-disable-next-line no-warning-comments
   // TODO сделать типографию
   const disabledStatus = (distance ?? rest ?? speed ?? temp ?? repeat ?? false) === false
-  const shutdownStatus = isShutdown || disabledStatus
-  const borderColor = (isClick && ((isShutdown && '#FB8888') || '#92E59B')) || 'transparent'
+  const shutdownStatus = isDiconnected || disabledStatus
+  const borderColor = (isClick && ((isDiconnected && '#FB8888') || '#92E59B')) || 'transparent'
   return (
     <div className={style.track_container} onClick={onClick} style={{ borderColor }}>
       <div className={style.track_header}>
         <TFaceSubHeader>{name}</TFaceSubHeader>
         <div className={style.icons_container}>
-          {isShutdown ? <img src={IconDisconnect} alt="" /> : <img src={IconConnect} alt="" />}
+          {isDiconnected ? <img src={IconDisconnect} alt="" /> : <img src={IconConnect} alt="" />}
         </div>
       </div>
       {shutdownStatus ? undefined : (

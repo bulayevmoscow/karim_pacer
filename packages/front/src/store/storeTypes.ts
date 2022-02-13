@@ -1,3 +1,5 @@
+import { TTrack } from '@monorepo/types'
+
 export type TNavigation =
   | {
       title: 'Дорожки'
@@ -32,18 +34,6 @@ export type TInterval = {
   progress: number
 }
 
-export type TLanesInfo =
-  | {
-      id: number
-      name: string
-      status: boolean
-      interval?: TInterval
-    }[]
-  | []
+export type TLanesInfo = TTrack[] | []
 
-export type TLaneInfo = {
-  id: number
-  isLoading: boolean
-  isRunning: boolean
-  intervals?: (TInterval & { name: string })[] | []
-}
+export type TLaneInfo = TTrack[] | []

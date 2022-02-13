@@ -18,7 +18,7 @@ const appData: { tracks: TTrack[] } = {
       id: 0,
       name: 'Дорожка 0',
       state: 'IDLE',
-      progress: 0,
+      progress: 70,
       connected: true,
       intervals:
         [
@@ -29,7 +29,7 @@ const appData: { tracks: TTrack[] } = {
             rest: 20,
             repeat: 2,
             temp: 400,
-            progress: 30,
+            progress: 20,
           },
         ] || [],
     },
@@ -52,6 +52,45 @@ const appData: { tracks: TTrack[] } = {
   ],
 }
 
+const trackData: { track: TTrack } = {
+  track: {
+    id: 0,
+    name: 'Дорожка 0',
+    state: 'IDLE',
+    progress: 70,
+    connected: true,
+    intervals: [
+      {
+        id: 0,
+        speed: 90,
+        distance: 500,
+        rest: 20,
+        repeat: 2,
+        temp: 400,
+        progress: 20,
+      },
+      {
+        id: 1,
+        speed: 90,
+        distance: 500,
+        rest: 20,
+        repeat: 2,
+        temp: 400,
+        progress: 20,
+      },
+      {
+        id: 2,
+        speed: 90,
+        distance: 500,
+        rest: 20,
+        repeat: 2,
+        temp: 400,
+        progress: 20,
+      },
+    ],
+  },
+}
+
 app.use('*', (req: Request, res: Response, next: NextFunction) => {
   res.status(500)
   console.log('URL: ', req.originalUrl)
@@ -61,7 +100,7 @@ app.use('*', (req: Request, res: Response, next: NextFunction) => {
 })
 
 app.post(
-  '/api/trackconnect',
+  '/api/trackConnect',
   (
     req: Request<{}, {}, Extract<TRequests, { url: 'api/trackconnect' }>['payload']>,
     res: Response<Extract<TRequests, { url: 'api/trackconnect' }>['res']>,
@@ -73,16 +112,26 @@ app.post(
 )
 
 app.post(
-  '/api/shortdata',
+  '/api/shortData',
   (
-    req: Request<{}, {}, Extract<TRequests, { url: 'api/shortdata' }>['payload']>,
-    res: Response<Extract<TRequests, { url: 'api/shortdata' }>['res']>,
+    _req: Request<{}, {}, Extract<TRequests, { url: 'api/shortData' }>['payload']>,
+    res: Response<Extract<TRequests, { url: 'api/shortData' }>['res']>,
     next: NextFunction
   ) => {
-    const resBody: Extract<TRequests, { url: 'api/shortdata' }>['res'] = appData.tracks.map((value, index) => {
+    const resBody: Extract<TRequests, { url: 'api/shortData' }>['res'] = appData.tracks.map((value, index) => {
       return { ...value, id: index }
     })
     res.status(200).json(resBody)
+  }
+)
+app.post(
+  '/api/trackData',
+  (
+    req: Request<{}, {}, Extract<TRequests, { url: 'api/trackData' }>['payload']>,
+    res: Response<Extract<TRequests, { url: 'api/trackData' }>['res']>,
+    next: NextFunction
+  ) => {
+    res.json(trackData.track)
   }
 )
 

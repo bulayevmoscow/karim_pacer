@@ -11,15 +11,16 @@ const TIMEOUT = (time: number = 1000) => new Promise<void>(resolve => setTimeout
 
 class TodoStore {
   constructor(
-    public page: TNavigation = { pageTag: 'main', title: 'Дорожки' },
-    // public page: TNavigation = { pageTag: 'lane', title: 'Дорожка', idLine: 0 },
+    // public page: TNavigation = { pageTag: 'main', title: 'Дорожки' },
+    public page: TNavigation = { pageTag: 'lane', title: 'Дорожка', idLine: 0 },
     public modalManager: TModalManager = {},
     public lanesInfo: TLanesInfo = [
       {
         id: 0,
         name: 'Дорожка 13',
         status: true,
-        interval: {
+        123: 123,
+        intervals: {
           id: 0,
           speed: 90,
           distance: 500,
@@ -40,7 +41,7 @@ class TodoStore {
         name: 'Дорожка 3',
       },
     ] && [],
-    public laneInfo = {} as TLaneInfo
+    public laneInfo: TLaneInfo = []
   ) {
     makeAutoObservable(this, {}, { autoBind: true })
   }
@@ -77,26 +78,11 @@ class TodoStore {
       .then(res => {
         const { data } = res
         runInAction(() => {
-          this.lanesInfo = data.map(serverData => {
-            const intervals: TLanesInfo[number]['interval'] = serverData.intervals[0] ?? []
-            console.log(intervals)
-            return {
-              id: serverData.id,
-              name: serverData?.name ?? 'noname',
-              status: serverData?.state !== 'PPROGRESS',
-              interval: intervals,
-            }
-          })
+          this.lanesInfo = data
         })
       })
       .finally(() => {
-        console.log(JSON.stringify(this.lanesInfo.filter(x => false)))
-        if (this.lanesInfo.filter(x => x.interval?.progress)) {
-          // TODO Сделать цикл опроса
-          // return undefined
-          // eslint-disable-next-line no-unreachable
-          setTimeout(this.getShortData, 1500)
-        }
+        // TODO Сделать цикл опроса
       })
     console.log('123')
   }
@@ -110,46 +96,31 @@ class TodoStore {
         idLine: pageNumber,
       }
       // Делаем дефолтные настройки страницы
-      this.laneInfo = {
-        id: pageNumber,
-        intervals: [],
-        isRunning: false,
-        isLoading: true,
-      }
+      this.laneInfo = []
     })
-    setTimeout(() => (this.laneInfo.isLoading = false), 1000)
   }
 
   getTemplates = async () => {
     await TIMEOUT(200)
-    await axios
-      .get<TInterval[]>('/task_templates.json')
-      .then(data => {
-        console.log(data)
-        // @ts-ignore
-        this.laneInfo.intervals = data.data
-      })
-      .finally(() => (this.laneInfo.isLoading = false))
-  }
-
-  setInt = async () => {
-    const { interval } = this.lanesInfo[1]
-    if (interval) {
-      for (let i = 0; i <= 10; i++) {
-        setTimeout(() => runInAction(() => (interval.progress = i * 10)), i * 1000)
-        console.log('setInt', i)
-      }
-    }
+    await axios.get<TInterval[]>('/task_templates.json').then(data => {
+      console.log(data)
+      // @ts-ignore
+      this.laneInfo.intervals = data.data
+    })
   }
 
   toggleLaneStatus = (laneId: number, action: 'OFF' | 'ON') => {
     // TODO REQ
-    const lane = this.lanesInfo[laneId]
-    if (lane) {
-      lane.status = action === 'ON'
-    }
+    // const lane = this.lanesInfo[laneId]
+    // if (lane) {
+    //   lane.status = action === 'ON'
+    // }
   }
   // Данные о странице
+
+  startInterval = (body: Extract<TRequests, { url: 'api/trackConnect' }>['payload']) => {
+    axios.post('/api/trackConnect', body).then(x => console.log(x.data))
+  }
 }
 
 const store = new TodoStore()

@@ -22,12 +22,12 @@ export type TTrack = {
 // варианты запросов на сервер
 export type TRequests =
   | {
-      url: 'api/shortdata'
+      url: 'api/shortData'
       payload: undefined
       res: TTrack[] | [] // пример simpleData
     }
   | {
-      url: 'api/trackconnect'
+      url: 'api/trackConnect'
       payload: {
         id: number
         status: boolean
@@ -68,6 +68,7 @@ export type TRequests =
         state: boolean //true - запустить / false - остановить можно заменить на IDLE PROGRESS
       }
     }
+  | never
 
 const interval: TInterval = {
   id: 1, // выполняемый интервал
