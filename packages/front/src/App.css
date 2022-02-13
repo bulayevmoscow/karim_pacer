@@ -1,6 +1,7 @@
 @font-face {
   font-family: 'SF Pro Display';
-  src: local('SF Pro Display Medium'), url('@/fonts/SFProDisplay-Medium.woff') format('woff');
+  src: local('SF Pro Display Medium');
+  /*url('@/fonts/SFProDisplay-Medium.woff') format('woff');*/
 
   font-weight: 400;
   font-style: normal;

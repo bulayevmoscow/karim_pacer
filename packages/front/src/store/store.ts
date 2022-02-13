@@ -11,8 +11,8 @@ const TIMEOUT = (time: number = 1000) => new Promise<void>(resolve => setTimeout
 
 class TodoStore {
   constructor(
-    // public page: TNavigation = { pageTag: 'main', title: 'Дорожки' },
-    public page: TNavigation = { pageTag: 'lane', title: 'Дорожка', idLine: 0 },
+    public page: TNavigation = { pageTag: 'main', title: 'Дорожки' },
+    // public page: TNavigation = { pageTag: 'lane', title: 'Дорожка', idLine: 0 },
     public modalManager: TModalManager = {},
     public lanesInfo: TLanesInfo = [
       {
@@ -41,7 +41,7 @@ class TodoStore {
         name: 'Дорожка 3',
       },
     ] && [],
-    public laneInfo: TLaneInfo = []
+    public laneInfo: TLaneInfo = undefined
   ) {
     makeAutoObservable(this, {}, { autoBind: true })
   }
@@ -71,7 +71,6 @@ class TodoStore {
   }
 
   getShortData = async () => {
-    await TIMEOUT(500)
     type TReq = Extract<TRequests, { url: 'api/shortdata' }>['res']
     await axios
       .post<TReq>('api/shortdata')
@@ -81,8 +80,10 @@ class TodoStore {
           this.lanesInfo = data
         })
       })
-      .finally(() => {
+      .finally(async () => {
         // TODO Сделать цикл опроса
+        await TIMEOUT(5000)
+        this.getShortData()
       })
     console.log('123')
   }
@@ -96,7 +97,7 @@ class TodoStore {
         idLine: pageNumber,
       }
       // Делаем дефолтные настройки страницы
-      this.laneInfo = []
+      this.laneInfo = undefined
     })
   }
 
@@ -119,8 +120,12 @@ class TodoStore {
   // Данные о странице
 
   startInterval = (body: Extract<TRequests, { url: 'api/trackConnect' }>['payload']) => {
-    axios.post('/api/trackConnect', body).then(x => console.log(x.data))
+    axios.post('/api/startTrack', body).then(x => console.log(x.data))
   }
+
+  // getIntervalsOfLane = (body: Extract<TRequests, { url: 'api/trackData' }>['payload']) => {
+  //   axios.post('/api/starttrack', body).then(x => console.log(x.data))
+  // }
 }
 
 const store = new TodoStore()

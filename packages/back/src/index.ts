@@ -17,7 +17,7 @@ const appData: { tracks: TTrack[] } = {
     {
       id: 0,
       name: 'Дорожка 0',
-      state: 'IDLE',
+      status: true,
       progress: 70,
       connected: true,
       intervals:
@@ -36,7 +36,7 @@ const appData: { tracks: TTrack[] } = {
     {
       id: 1,
       name: 'Дорожка 1',
-      state: 'IDLE',
+      status: true,
       progress: 0,
       connected: true,
       intervals: [],
@@ -44,7 +44,7 @@ const appData: { tracks: TTrack[] } = {
     {
       id: 2,
       name: 'Дорожка 2',
-      state: 'IDLE',
+      status: true,
       progress: 0,
       connected: true,
       intervals: [],
@@ -56,7 +56,7 @@ const trackData: { track: TTrack } = {
   track: {
     id: 0,
     name: 'Дорожка 0',
-    state: 'IDLE',
+    status: true,
     progress: 70,
     connected: true,
     intervals: [
@@ -121,7 +121,29 @@ app.post(
     const resBody: Extract<TRequests, { url: 'api/shortData' }>['res'] = appData.tracks.map((value, index) => {
       return { ...value, id: index }
     })
-    res.status(200).json(resBody)
+
+    const testapi: TTrack[] = [
+      {
+        progress: 1,
+        id: 0,
+        status: true,
+        connected: true,
+        name: 'track 1',
+        intervals: [
+          {
+            id: 0,
+            progress: 1,
+            speed: 10,
+            distance: 200,
+            rest: 20,
+            repeat: 4,
+            temp: 400,
+          },
+        ],
+      },
+    ]
+
+    res.status(200).json(resBody && testapi)
   }
 )
 app.post(
@@ -131,6 +153,11 @@ app.post(
     res: Response<Extract<TRequests, { url: 'api/trackData' }>['res']>,
     next: NextFunction
   ) => {
+    if (req.body.id === undefined) {
+      console.log(req.headers, req.body.id)
+      throw new Error('No number')
+    }
+    res.status(200)
     res.json(trackData.track)
   }
 )

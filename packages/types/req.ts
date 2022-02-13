@@ -14,7 +14,7 @@ export type TTrack = {
   id: number
   name?: string
   connected: boolean
-  state: 'IDLE' | 'PPROGRESS'
+  status: boolean
   progress: number
   intervals: TInterval[] | []
 }
@@ -62,7 +62,7 @@ export type TRequests =
       }
     }
   | {
-      url: 'api/starttrack'
+      url: 'api/startTrack'
       payload: {
         id: number
         state: boolean //true - запустить / false - остановить можно заменить на IDLE PROGRESS
@@ -93,7 +93,7 @@ const intervalInProgress: TInterval = {
 const taskFree: TTrack = {
   id: 0,
   connected: true,
-  state: 'IDLE',
+  status: true,
   progress: 0,
   intervals: [],
 }
@@ -101,7 +101,7 @@ const taskFree: TTrack = {
 const task5Intervals: TTrack = {
   id: 0,
   connected: true,
-  state: 'IDLE',
+  status: true,
   progress: 0,
   intervals: [interval, { ...interval, id: 2 }, { ...interval, id: 3 }, { ...interval, id: 4 }, { ...interval, id: 5 }],
 }
@@ -109,7 +109,7 @@ const task5Intervals: TTrack = {
 const taskShort: TTrack = {
   id: 1,
   connected: true,
-  state: 'IDLE',
+  status: true,
   progress: 0,
   intervals: [interval],
 }
@@ -122,7 +122,7 @@ const templates: TTrack[] = [
 ]
 
 const simpleData: TTrack[] = [
-  { ...taskShort, id: 0, state: 'PPROGRESS', intervals: [intervalInProgress] },
-  { ...taskShort, id: 1, state: 'IDLE' },
+  { ...taskShort, id: 0, status: true, intervals: [intervalInProgress] },
+  { ...taskShort, id: 1, status: true },
   { ...taskShort, id: 2, connected: false },
 ]

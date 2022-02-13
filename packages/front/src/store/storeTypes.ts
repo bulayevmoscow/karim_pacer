@@ -36,4 +36,4 @@ export type TInterval = {
 
 export type TLanesInfo = TTrack[] | []
 
-export type TLaneInfo = TTrack[] | []
+export type TLaneInfo = TTrack | undefined
