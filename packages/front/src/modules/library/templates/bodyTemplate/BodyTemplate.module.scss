@@ -1,0 +1,29 @@
+.body_template {
+  flex: 1 1 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  &_container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    flex-grow: 1;
+    .tracks_list {
+      margin: 32px 16px;
+      > * {
+        margin-bottom: 24px;
+      }
+    }
+  }
+  &_buttons_container {
+    margin: 15px 16px 13px 16px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    > * {
+      margin: 5px;
+      flex: 0 1 45%
+    }
+  }
+
+}
