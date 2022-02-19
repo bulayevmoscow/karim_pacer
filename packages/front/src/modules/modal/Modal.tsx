@@ -1,20 +1,20 @@
-import { FC } from 'react'
-import ReactDOM from 'react-dom'
-import style from './Modal.module.pcss'
+import { FC } from "react";
+import ReactDOM from "react-dom";
+import style from "./Modal.module.pcss";
 
 type TModal = {
-  isOpen: boolean
-}
+  isOpen: boolean;
+};
 type TModalErrorConnect = {
-  refetch: () => void
-  status: boolean
-  url?: string
-  code?: string
-}
+  refetch: () => void;
+  status: boolean;
+  url?: string;
+  code?: string;
+};
 
 export const Modal: FC<TModal> = ({ isOpen, children }) => {
   if (!isOpen) {
-    return null
+    return null;
   }
 
   return ReactDOM.createPortal(
@@ -24,20 +24,27 @@ export const Modal: FC<TModal> = ({ isOpen, children }) => {
       </div>
     </div>,
     document.body
-  )
-}
+  );
+};
 
-export const ModalErrorConnectModule: FC<TModalErrorConnect> = ({ refetch, code, url, status }) => {
+export const ModalErrorConnectModule: FC<TModalErrorConnect> = ({
+  refetch,
+  code,
+  url,
+  status,
+}) => {
   return (
     <>
       {/* eslint-disable no-negated-condition */}
-      {!status ? <>Ошибка подключения</> : ''}
+      {!status ? <>Ошибка подключения</> : ""}
       {!status && url && code && (
         <div>
           [{code}] {url}
         </div>
       )}
-      {!status ? <button onClick={refetch}>Попробовать подключиться?</button> : null}
+      {!status ? (
+        <button onClick={refetch}>Попробовать подключиться?</button>
+      ) : null}
     </>
-  )
-}
+  );
+};

@@ -9,12 +9,8 @@
     flex-direction: column;
     overflow-y: scroll;
     flex-grow: 1;
-    .tracks_list {
-      margin: 32px 16px;
-      > * {
-        margin-bottom: 24px;
-      }
-    }
+    min-height: 100%;
+    position: relative;
   }
   &_buttons_container {
     display: flex;

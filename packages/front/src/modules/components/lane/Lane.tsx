@@ -1,13 +1,13 @@
-import { observer } from 'mobx-react-lite'
-import store from '@store'
-import style from './Lane.module.scss'
-import { Button } from '@modules/library/Button'
+import { observer } from "mobx-react-lite";
+import store from "@store";
+import style from "./Lane.module.scss";
+import { Button } from "@modules/library/Button";
 // import IconLoading from '@modules/icons/progress.png'
-import { TaskUnit } from '@modules/components/lane/task/TaskUnit'
-import { useEffect } from 'react'
+import { TaskUnit } from "@modules/components/lane/task/TaskUnit";
+import { useEffect } from "react";
 
 export const Lane = observer(() => {
-  const { startInterval, page, laneInfo } = store
+  const { startInterval, page, laneInfo } = store;
 
   // if (laneInfo.isLoading) {
   //   return (
@@ -21,12 +21,12 @@ export const Lane = observer(() => {
   //   )
   // }
 
-  useEffect(() => {})
+  useEffect(() => {});
 
-  const laneNumber = page.pageTag === 'lane' ? page.idLine : undefined
-  console.log(laneNumber)
+  const laneNumber = page.pageTag === "lane" ? page.idLine : undefined;
+  console.log(laneNumber);
   if (laneNumber === undefined) {
-    throw new Error('No lane Number')
+    throw new Error("No lane Number");
   }
 
   return (
@@ -41,7 +41,7 @@ export const Lane = observer(() => {
               rest={lane.rest}
               distance={lane.distance}
               speed={lane.speed}
-              name={laneInfo.name ?? 'no name'}
+              name={laneInfo.name ?? "no name"}
               progress={lane.progress}
               isShutdown={false}
               onClick={() => undefined}
@@ -55,9 +55,9 @@ export const Lane = observer(() => {
         {
           <Button
             color="green"
-            onClick={e => {
-              startInterval({ id: 0, status: true })
-              e.stopPropagation()
+            onClick={(e) => {
+              startInterval({ id: 0, status: true });
+              e.stopPropagation();
             }}
           >
             Старт
@@ -65,17 +65,17 @@ export const Lane = observer(() => {
         }
         <Button
           color="green"
-          onClick={e => {
-            startInterval({ id: 0, status: false })
-            e.stopPropagation()
+          onClick={(e) => {
+            startInterval({ id: 0, status: false });
+            e.stopPropagation();
           }}
         >
           Стоп
         </Button>
       </div>
     </div>
-  )
-})
+  );
+});
 
 // <div className={style.tracks_buttons_container}>
 //   {lanesInfo[showButtonPanel].status ? (

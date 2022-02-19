@@ -1,24 +1,24 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 // @ts-ignore
-import path from 'path'
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react({ jsxRuntime: 'classic' })],
+  plugins: [react({ jsxRuntime: "classic" })],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
-      '@modules': path.resolve(__dirname, './src/modules'),
-      '@store': path.resolve(__dirname, './src/store/store.ts'),
-      '@utils': path.resolve(__dirname, './src/utils'),
-      '@library': path.resolve(__dirname, './src/modules/library'),
+      "@": path.resolve(__dirname, "src"),
+      "@modules": path.resolve(__dirname, "./src/modules"),
+      "@store": path.resolve(__dirname, "./src/store/store.ts"),
+      "@utils": path.resolve(__dirname, "./src/utils"),
+      "@library": path.resolve(__dirname, "./src/modules/library"),
     },
   },
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:3005',
+      "/api": {
+        target: "http://localhost:3005",
         changeOrigin: true,
         secure: false,
         ws: true,
@@ -28,17 +28,17 @@ export default defineConfig({
     },
   },
   esbuild: {
-    jsxFactory: 'React.createElement',
-    jsxFragment: 'React.Fragment',
+    jsxFactory: "React.createElement",
+    jsxFragment: "React.Fragment",
   },
   build: {
     sourcemap: false,
     rollupOptions: {
       output: {
-        entryFileNames: '[name].js',
-        assetFileNames: 'a/[name].[ext]',
-        chunkFileNames: '[name].js',
+        entryFileNames: "[name].js",
+        assetFileNames: "a/[name].[ext]",
+        chunkFileNames: "[name].js",
       },
     },
   },
-})
+});

@@ -1,27 +1,27 @@
-import { FC } from 'react'
-import IconEdit from '@modules/icons/edit.svg'
-import IconDelete from '@modules/icons/delete.svg'
-import IconSpeed from '@modules/icons/unit/speed.png'
-import IconDistance from '@modules/icons/unit/distance.png'
-import IconRest from '@modules/icons/unit/rest.png'
-import IconRepeat from '@modules/icons/unit/repeat.png'
-import IconTempo from '@modules/icons/unit/tempo.png'
+import { FC } from "react";
+import IconEdit from "@modules/icons/edit.svg";
+import IconDelete from "@modules/icons/delete.svg";
+import IconSpeed from "@modules/icons/unit/speed.png";
+import IconDistance from "@modules/icons/unit/distance.png";
+import IconRest from "@modules/icons/unit/rest.png";
+import IconRepeat from "@modules/icons/unit/repeat.png";
+import IconTempo from "@modules/icons/unit/tempo.png";
 
-import style from './Task.module.scss'
-import { TFaceSubHeader } from '@modules/library/Typeface'
+import style from "./Task.module.scss";
+import { TFaceSubHeader } from "@modules/library/Typeface";
 
 export type TTaskUnit = {
-  name: string
-  isShutdown: boolean
-  speed?: number
-  distance?: number
-  rest?: number
-  repeat?: number
-  tempo?: number
-  progress?: number
-  onClick?: (e: any) => void
-  isClick: boolean
-}
+  name: string;
+  isShutdown: boolean;
+  speed?: number;
+  distance?: number;
+  rest?: number;
+  repeat?: number;
+  tempo?: number;
+  progress?: number;
+  onClick?: (e: any) => void;
+  isClick: boolean;
+};
 
 export const TaskUnit: FC<TTaskUnit> = ({
   distance,
@@ -35,11 +35,17 @@ export const TaskUnit: FC<TTaskUnit> = ({
   onClick,
   isClick = false,
 }) => {
-  const disabledStatus = (distance ?? rest ?? speed ?? tempo ?? repeat ?? false) === false
-  const shutdownStatus = isShutdown || disabledStatus
-  const borderColor = (isClick && ((isShutdown && '#FB8888') || '#92E59B')) || 'transparent'
+  const disabledStatus =
+    (distance ?? rest ?? speed ?? tempo ?? repeat ?? false) === false;
+  const shutdownStatus = isShutdown || disabledStatus;
+  const borderColor =
+    (isClick && ((isShutdown && "#FB8888") || "#92E59B")) || "transparent";
   return (
-    <div className={style.lane_container} onClick={onClick} style={{ borderColor }}>
+    <div
+      className={style.lane_container}
+      onClick={onClick}
+      style={{ borderColor }}
+    >
       <div className={style.lane_header}>
         <TFaceSubHeader>{name}</TFaceSubHeader>
         <div className={style.icons_container}>
@@ -85,5 +91,5 @@ export const TaskUnit: FC<TTaskUnit> = ({
         />
       )}
     </div>
-  )
-}
+  );
+};
