@@ -3,6 +3,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin: 15px 13px 0 13px;
   &_container {
     display: flex;
     flex-direction: column;
@@ -16,14 +17,14 @@
     }
   }
   &_buttons_container {
-    margin: 15px 16px 13px 16px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    padding: 15px 0;
+    margin: -5px;
     > * {
       margin: 5px;
-      flex: 0 1 45%
+      flex: 1 1 140px;
     }
   }
-
 }
