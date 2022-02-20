@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import store from "@store";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { TRequests } from "@monorepo/types";
@@ -12,7 +11,6 @@ const eventStart = (func: Function) => {
 };
 
 export const useTracks = () => {
-  const { lanesInfo, goToLane, startInterval } = store;
   const [showButtonPanel, setShowButtonPanel] = useState<number | false>(false);
   useEffect(() => {
     const event = () => {
@@ -31,12 +29,12 @@ export const useTracks = () => {
   }, [showButtonPanel]);
 
   type TReq = Extract<TRequests, { url: "api/shortData" }>["res"];
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     "Tracks",
     () => axios.post<TReq>("api/shortData").then((data) => data.data),
     {
-      enabled: false,
-      refetchInterval: 10000,
+      enabled: true,
+      refetchInterval: 1000,
       onSuccess: () => {
         console.log("success");
       },
@@ -47,11 +45,10 @@ export const useTracks = () => {
   }, [data]);
 
   return {
-    lanesInfo,
+    data,
+    isLoading,
     showButtonPanel,
     setShowButtonPanel,
     eventStart,
-    goToLane,
-    startInterval,
   };
 };
