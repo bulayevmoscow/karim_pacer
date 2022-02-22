@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import axios from "axios";
 import { TRequests } from "@monorepo/types";
+import { axiosInstance } from "@utils/axiosInstance";
 
 const eventStart = (func: Function) => {
   return (e: MouseEvent) => {
@@ -29,14 +29,18 @@ export const useTracks = () => {
   }, [showButtonPanel]);
 
   type TReq = Extract<TRequests, { url: "api/shortData" }>["res"];
+  const axios = axiosInstance;
   const { data, isLoading } = useQuery(
     "Tracks",
-    () => axios.post<TReq>("api/shortData").then((data) => data.data),
+    () => axios.post<TReq>("api/shortData1").then((data) => data.data),
     {
       enabled: true,
-      refetchInterval: 1000,
+      // refetchInterval: 1000,
       onSuccess: () => {
         console.log("success");
+      },
+      onError: (err) => {
+        console.log(5, err);
       },
     }
   );
