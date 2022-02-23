@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { TRequests } from "@monorepo/types";
 import { axiosInstance } from "@utils/axiosInstance";
-
+import store from "@store";
+import { AxiosError } from "axios";
 const eventStart = (func: Function) => {
   return (e: MouseEvent) => {
     func();
@@ -12,6 +13,10 @@ const eventStart = (func: Function) => {
 
 export const useTracks = () => {
   const [showButtonPanel, setShowButtonPanel] = useState<number | false>(false);
+  const { setFetchError, fetchErrorList, clearFetchError } = store;
+  const [refetchInterval, setRefetchInterval] = useState<false | 5000>(5000);
+  const axios = axiosInstance;
+
   useEffect(() => {
     const event = () => {
       if (showButtonPanel !== false) {
@@ -29,27 +34,39 @@ export const useTracks = () => {
   }, [showButtonPanel]);
 
   type TReq = Extract<TRequests, { url: "api/shortData" }>["res"];
-  const axios = axiosInstance;
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, refetch, isError } = useQuery(
     "Tracks",
-    () => axios.post<TReq>("api/shortData1").then((data) => data.data),
+    () => axios.post<TReq>("/api/shortData"),
     {
       enabled: true,
-      // refetchInterval: 1000,
-      onSuccess: () => {
-        console.log("success");
+      retry: false,
+      refetchInterval,
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        if (fetchErrorList?.length !== 0) {
+          clearFetchError(data.config.url ?? "");
+        }
+
+        return data;
       },
-      onError: (err) => {
-        console.log(5, err);
+      onError: (err: AxiosError) => {
+        setFetchError({ onClick: refetch, err });
+        return Promise.reject(err);
       },
     }
   );
-  useEffect(() => {
-    console.log(data && data);
-  }, [data]);
 
+  useEffect(() => {
+    if (isError && refetchInterval === 5000) {
+      setRefetchInterval(false);
+    }
+
+    if (!isError && refetchInterval === false) {
+      setRefetchInterval(5000);
+    }
+  }, [refetchInterval, isError]);
   return {
-    data,
+    data: data?.data,
     isLoading,
     showButtonPanel,
     setShowButtonPanel,
