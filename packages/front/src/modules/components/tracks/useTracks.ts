@@ -12,7 +12,7 @@ const eventStart = (func: Function) => {
 };
 
 export const useTracks = () => {
-  const [showButtonPanel, setShowButtonPanel] = useState<number | false>(false);
+  const [showButtonPanel, setShowButtonPanel] = useState<number | false>(0);
   const { setFetchError, fetchErrorList, clearFetchError } = store;
   const [refetchInterval, setRefetchInterval] = useState<false | 5000>(5000);
   const axios = axiosInstance;

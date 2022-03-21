@@ -2,7 +2,6 @@ import style from "./Settings.module.scss";
 import { Button } from "@modules/library/Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import qs from "qs";
 
 export const Settings = () => {
   const [data, setData] = useState("no data");
@@ -54,7 +53,7 @@ export const Settings = () => {
             try {
               const bodyObj = JSON.parse(body);
               axios
-                .post(url, qs.stringify(bodyObj))
+                .post(url, bodyObj)
                 .then((data) => setData(JSON.stringify(data.data, null, " ")))
                 .catch((e) => setData(JSON.stringify(e, null, " ")));
             } catch (e) {

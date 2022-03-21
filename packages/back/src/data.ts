@@ -40,6 +40,43 @@ export const appData: { tracks: TTrack[] } = {
   ],
 }
 
+export const shortData: TTrack[] = [
+  {
+    progress: 70,
+    connected: true,
+    id: 0,
+    status: true,
+    name: 'Дорожка 1',
+    intervals: [
+      {
+        progress: 0,
+        speed: 90,
+        distance: 200,
+        rest: 20,
+        repeat: 4,
+        temp: 400,
+        id: 1,
+      },
+    ],
+  },
+  {
+    progress: 0,
+    connected: true,
+    id: 1,
+    status: false,
+    name: 'Дорожка 2',
+    intervals: [],
+  },
+  {
+    progress: 0,
+    connected: false,
+    id: 2,
+    status: false,
+    name: 'Дорожка 3',
+    intervals: [],
+  },
+]
+
 export const trackData: { track: TTrack } = {
   track: {
     id: 0,

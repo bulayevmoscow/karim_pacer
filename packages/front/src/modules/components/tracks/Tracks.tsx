@@ -23,11 +23,12 @@ export const Tracks = observer(() => {
               isDiconnected={!lane.connected}
               {...lane.intervals[0]}
               progress={lane.progress}
-              onClick={eventStart(() =>
-                showButtonPanel === lane.id
+              onClick={eventStart(() => {
+                console.log(showButtonPanel);
+                return showButtonPanel === lane.id
                   ? undefined
-                  : setShowButtonPanel(lane.id)
-              )}
+                  : setShowButtonPanel(lane.id);
+              })}
               isClick={lane.id === showButtonPanel}
             />
           ))}

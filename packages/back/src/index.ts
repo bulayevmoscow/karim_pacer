@@ -3,7 +3,7 @@ import { TRequests, TTrack } from '@monorepo/types'
 import { Response, Request, NextFunction } from 'express'
 import bodyParser from 'body-parser'
 import { TLanesInfo } from '@monorepo/front/src/store/storeTypes'
-import { appData, trackData } from './data'
+import { appData, shortData, trackData } from './data'
 
 const TIMEOUT = (time: number) => new Promise(resolve => setTimeout(resolve, time))
 
@@ -40,11 +40,10 @@ app.post(
   '/api/shortData',
   (
     _req: Request<{}, {}, Extract<TRequests, { url: 'api/shortData' }>['payload']>,
-    res: Response<Extract<TRequests, { url: 'api/shortData' }>['res']>,
-    next: NextFunction
+    res: Response<Extract<TRequests, { url: 'api/shortData' }>['res']>
   ) => {
     const resBody: Extract<TRequests, { url: 'api/shortData' }>['res'] = appData.tracks
-    res.status(200).json(resBody)
+    res.status(200).json(shortData)
   }
 )
 app.post(
@@ -65,13 +64,9 @@ app.post(
 
 app.listen(port, () => console.log(`Running on port ${port}\n`))
 
-app.get('/', (req, res) => {
-  res.send('<html></html>')
-})
-
-setInterval(() => {
-  const progress = appData.tracks[0].progress
-  appData.tracks[0].progress = progress >= 90 ? 0 : progress + 10
-}, 3000)
+// setInterval(() => {
+//   const progress = appData.tracks[0].progress
+//   appData.tracks[0].progress = progress >= 90 ? 0 : progress + 10
+// }, 3000)
 
 export default app
