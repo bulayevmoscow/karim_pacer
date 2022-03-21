@@ -12,7 +12,7 @@ const eventStart = (func: Function) => {
 };
 
 export const useTracks = () => {
-  const [showButtonPanel, setShowButtonPanel] = useState<number | false>(0);
+  const [showButtonPanel, setShowButtonPanel] = useState<number | false>(false);
   const { setFetchError, fetchErrorList, clearFetchError } = store;
   const [refetchInterval, setRefetchInterval] = useState<false | 5000>(5000);
   const axios = axiosInstance;
@@ -34,7 +34,7 @@ export const useTracks = () => {
   }, [showButtonPanel]);
 
   type TReq = Extract<TRequests, { url: "api/shortData" }>["res"];
-  const { data, isLoading, refetch, isError } = useQuery(
+  const { data, isLoading, refetch, isError, remove } = useQuery(
     "Tracks",
     () => axios.post<TReq>("/api/shortData"),
     {
@@ -42,6 +42,7 @@ export const useTracks = () => {
       retry: false,
       refetchInterval,
       refetchOnWindowFocus: false,
+      refetchOnMount: true,
       onSuccess: (data) => {
         if (fetchErrorList?.length !== 0) {
           clearFetchError(data.config.url ?? "");
@@ -55,6 +56,9 @@ export const useTracks = () => {
       },
     }
   );
+  useEffect(() => {
+    return () => remove();
+  }, []);
 
   useEffect(() => {
     if (isError && refetchInterval === 5000) {

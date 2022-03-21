@@ -1,12 +1,16 @@
 import style from "./BodyTemplate.module.scss";
 import React, { FC } from "react";
 
-const BodyButtonTemplate: FC = ({ children }) => {
-  return (
+type TBodyButtonTemplate = {
+  show: boolean;
+};
+
+const BodyButtonTemplate: FC<TBodyButtonTemplate> = ({ children, show }) => {
+  return show ? (
     <div className={style.tracks_buttons_container}>
       <div className={style.body_template_buttons_container}>{children}</div>
     </div>
-  );
+  ) : null;
 };
 
 const BodyMainTemplate: FC = ({ children }) => {

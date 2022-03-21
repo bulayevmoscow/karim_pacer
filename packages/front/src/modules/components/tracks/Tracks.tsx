@@ -9,7 +9,6 @@ import { Loader } from "@modules/library/Loader";
 export const Tracks = observer(() => {
   const { data, isLoading, setShowButtonPanel, showButtonPanel, eventStart } =
     useTracks();
-  // console.log(query)
 
   return (
     <BodyTemplate.Container>
@@ -34,7 +33,7 @@ export const Tracks = observer(() => {
           ))}
         {!data && isLoading && <Loader />}
       </BodyTemplate.Main>
-      <BodyTemplate.Buttons>
+      <BodyTemplate.Buttons show={showButtonPanel !== false}>
         <Button
           color="red"
           onClick={(e) => {
