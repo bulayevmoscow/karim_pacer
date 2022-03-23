@@ -5,11 +5,12 @@ import { Button } from "@modules/library/Button";
 import React from "react";
 import { TrackUnit } from "@modules/components/tracks/unit/TrackUnit";
 import { Loader } from "@modules/library/Loader";
+import store from "@store";
 
 export const Tracks = observer(() => {
   const { data, isLoading, setShowButtonPanel, showButtonPanel, eventStart } =
     useTracks();
-
+  const { goToLane } = store;
   return (
     <BodyTemplate.Container>
       <BodyTemplate.Main>
@@ -18,16 +19,15 @@ export const Tracks = observer(() => {
           data.map((lane) => (
             <TrackUnit
               key={lane.id}
-              name={lane.name ?? "Дорожка"}
+              name={lane.name ?? "No track name"}
               isDiconnected={!lane.connected}
               {...lane.intervals[0]}
               progress={lane.progress}
-              onClick={eventStart(() => {
-                console.log(showButtonPanel);
-                return showButtonPanel === lane.id
+              onClick={eventStart(() =>
+                showButtonPanel === lane.id
                   ? undefined
-                  : setShowButtonPanel(lane.id);
-              })}
+                  : setShowButtonPanel(lane.id)
+              )}
               isClick={lane.id === showButtonPanel}
             />
           ))}
@@ -53,6 +53,7 @@ export const Tracks = observer(() => {
         <Button
           color="gray"
           onClick={(e) => {
+            goToLane(Number(showButtonPanel));
             e.stopPropagation();
           }}
         >

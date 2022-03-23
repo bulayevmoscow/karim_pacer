@@ -1,28 +1,16 @@
 import { observer } from "mobx-react-lite";
 import store from "@store";
-import style from "./Lane.module.scss";
 import { Button } from "@modules/library/Button";
 // import IconLoading from '@modules/icons/progress.png'
+import React from "react";
+import BodyTemplate from "@modules/library/templates/bodyTemplate/BodyTemplate";
+import { Loader } from "@modules/library/Loader";
+import { useLane } from "@modules/components/lane/useLane";
 import { TaskUnit } from "@modules/components/lane/task/TaskUnit";
-import { useEffect } from "react";
 
 export const Lane = observer(() => {
-  const { startInterval, page, laneInfo } = store;
-
-  // if (laneInfo.isLoading) {
-  //   return (
-  //     <div className={style.tracks}>
-  //       <div className={style.tracks_container}>
-  //         <div className={style.loading_icon_container}>
-  //           <img src={IconLoading} alt="" />
-  //         </div>
-  //       </div>
-  //     </div>
-  //   )
-  // }
-
-  useEffect(() => {});
-
+  const { startInterval, page } = store;
+  const { data, isLoading, choiceLane, showButtonPanel } = useLane(0);
   const laneNumber = page.pageTag === "lane" ? page.idLine : undefined;
   console.log(laneNumber);
   if (laneNumber === undefined) {
@@ -30,10 +18,10 @@ export const Lane = observer(() => {
   }
 
   return (
-    <div className={style.tracks}>
-      <div className={style.tracks_container}>
-        <div className={style.tracks_list}>
-          {laneInfo?.intervals?.map((lane, index) => (
+    <>
+      <BodyTemplate.Container>
+        <BodyTemplate.Main>
+          {data?.data?.intervals?.map((lane, index) => (
             <TaskUnit
               key={index}
               tempo={lane.temp}
@@ -41,71 +29,41 @@ export const Lane = observer(() => {
               rest={lane.rest}
               distance={lane.distance}
               speed={lane.speed}
-              name={laneInfo.name ?? "no name"}
+              name={"no name " + index}
               progress={lane.progress}
-              isShutdown={false}
-              onClick={() => undefined}
-              isClick={true}
+              isSelect={showButtonPanel === index}
+              onClick={(e) => choiceLane(e, index)}
             />
           ))}
-        </div>
-      </div>
-
-      <div className={style.tracks_buttons_container}>
-        {
+          {isLoading && <Loader />}
+        </BodyTemplate.Main>
+        <BodyTemplate.Buttons show={showButtonPanel !== false}>
           <Button
-            color="green"
+            color="red"
             onClick={(e) => {
-              startInterval({ id: 0, status: true });
               e.stopPropagation();
             }}
           >
-            Старт
+            Отключить
           </Button>
-        }
-        <Button
-          color="green"
-          onClick={(e) => {
-            startInterval({ id: 0, status: false });
-            e.stopPropagation();
-          }}
-        >
-          Стоп
-        </Button>
-      </div>
-    </div>
+          <Button
+            color="green"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            Включить
+          </Button>
+          <Button
+            color="gray"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            Редактировать
+          </Button>
+        </BodyTemplate.Buttons>
+      </BodyTemplate.Container>
+    </>
   );
 });
-
-// <div className={style.tracks_buttons_container}>
-//   {lanesInfo[showButtonPanel].status ? (
-//     <Button
-//       color="red"
-//       onClick={e => {
-//         store.toggleLaneStatus(showButtonPanel, 'OFF')
-//         e.stopPropagation()
-//       }}
-//     >
-//       Отключить
-//     </Button>
-//   ) : (
-//     <Button
-//       color="green"
-//       onClick={e => {
-//         store.toggleLaneStatus(showButtonPanel, 'ON')
-//         e.stopPropagation()
-//       }}
-//     >
-//       Включить
-//     </Button>
-//   )}
-//   <Button
-//     color="gray"
-//     onClick={e => {
-//       e.stopPropagation()
-//     }}
-//   >
-//     Редактировать
-//   </Button>
-// </div>
-//

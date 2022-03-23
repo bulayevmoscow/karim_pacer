@@ -1,11 +1,11 @@
-import { TRequests, TTrack } from '@monorepo/types'
+import { TRequests, TTrack, TLane } from '@monorepo/types'
 
 export const appData: { tracks: TTrack[] } = {
   tracks: [
     {
       id: 0,
       name: 'Дорожка 0',
-      status: true,
+      status: 'PROGRESS',
       progress: 0,
       connected: true,
       intervals:
@@ -24,7 +24,7 @@ export const appData: { tracks: TTrack[] } = {
     {
       id: 1,
       name: 'Дорожка 1',
-      status: true,
+      status: 'DISCONNECT',
       progress: 0,
       connected: true,
       intervals: [],
@@ -32,7 +32,7 @@ export const appData: { tracks: TTrack[] } = {
     {
       id: 2,
       name: 'Дорожка 2',
-      status: true,
+      status: 'IDLE',
       progress: 0,
       connected: true,
       intervals: [],
@@ -45,7 +45,7 @@ export const shortData: TTrack[] = [
     progress: 70,
     connected: true,
     id: 0,
-    status: true,
+    status: 'PROGRESS',
     name: 'Дорожка 1',
     intervals: [
       {
@@ -63,7 +63,7 @@ export const shortData: TTrack[] = [
     progress: 0,
     connected: true,
     id: 1,
-    status: false,
+    status: 'DISCONNECT',
     name: 'Дорожка 2',
     intervals: [],
   },
@@ -71,47 +71,35 @@ export const shortData: TTrack[] = [
     progress: 0,
     connected: false,
     id: 2,
-    status: false,
+    status: 'DISCONNECT',
     name: 'Дорожка 3',
     intervals: [],
   },
 ]
 
-export const trackData: { track: TTrack } = {
-  track: {
-    id: 0,
-    name: 'Дорожка 0',
-    status: true,
-    progress: 70,
-    connected: true,
-    intervals: [
-      {
-        id: 0,
-        speed: 90,
-        distance: 500,
-        rest: 20,
-        repeat: 2,
-        temp: 400,
-        progress: 20,
-      },
-      {
-        id: 1,
-        speed: 90,
-        distance: 500,
-        rest: 20,
-        repeat: 2,
-        temp: 400,
-        progress: 20,
-      },
-      {
-        id: 2,
-        speed: 90,
-        distance: 500,
-        rest: 20,
-        repeat: 2,
-        temp: 400,
-        progress: 20,
-      },
-    ],
-  },
+export const trackDataEmpty: TTrack = {
+  id: 1,
+  name: 'Дорожка 2',
+  status: 'IDLE',
+  connected: true,
+  progress: 0,
+  intervals: [],
+}
+export const trackDataOne: TTrack = {
+  id: 1,
+  name: 'Дорожка 2',
+  status: 'IDLE',
+  connected: true,
+  progress: 0,
+  intervals: [
+    {
+      id: 0,
+      speed: 90,
+      distance: 500,
+      rest: 20,
+      repeat: 2,
+      temp: 400,
+      progress: 0,
+    },
+  ],
 }

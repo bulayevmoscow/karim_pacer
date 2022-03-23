@@ -12,12 +12,14 @@ export type TInterval = {
 // Вид Задачи дорожки
 export type TTrack = {
   id: number
-  name?: string
+  name: string
   connected: boolean
-  status: boolean
+  status: 'IDLE' | 'PROGRESS' | 'DISCONNECT'
   progress: number
   intervals: TInterval[] | []
 }
+
+export type TLane = TTrack
 
 // варианты запросов на сервер
 export type TRequests =
@@ -89,40 +91,3 @@ const intervalInProgress: TInterval = {
   repeat: 2, // количество повторов
   progress: 70, // 0% - 100%
 }
-
-const taskFree: TTrack = {
-  id: 0,
-  connected: true,
-  status: true,
-  progress: 0,
-  intervals: [],
-}
-
-const task5Intervals: TTrack = {
-  id: 0,
-  connected: true,
-  status: true,
-  progress: 0,
-  intervals: [interval, { ...interval, id: 2 }, { ...interval, id: 3 }, { ...interval, id: 4 }, { ...interval, id: 5 }],
-}
-
-const taskShort: TTrack = {
-  id: 1,
-  connected: true,
-  status: true,
-  progress: 0,
-  intervals: [interval],
-}
-
-const templates: TTrack[] = [
-  { ...task5Intervals, name: 'Pupkin' },
-  { ...task5Intervals, name: 'Fedoroff' },
-  { ...task5Intervals, name: 'FastTemplate' },
-  { ...task5Intervals, name: 'SlowSwim' },
-]
-
-const simpleData: TTrack[] = [
-  { ...taskShort, id: 0, status: true, intervals: [intervalInProgress] },
-  { ...taskShort, id: 1, status: true },
-  { ...taskShort, id: 2, connected: false },
-]

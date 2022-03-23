@@ -1,11 +1,5 @@
 import { makeAutoObservable, runInAction, spy } from "mobx";
-import {
-  TInterval,
-  TLaneInfo,
-  TLanesInfo,
-  TModalManager,
-  TNavigation,
-} from "./storeTypes";
+import { TInterval, TModalManager, TNavigation } from "./storeTypes";
 import { TRequests } from "@monorepo/types";
 
 import axios, { AxiosError } from "axios";
@@ -31,55 +25,10 @@ const TIMEOUT = (time: number = 1000) =>
   new Promise<void>((resolve) => setTimeout(resolve, time));
 
 class TodoStore {
-  // eslint-disable-next-line max-params
   constructor(
-    public page: TNavigation = { pageTag: "main", title: "Дорожки" },
-    // public page: TNavigation = { pageTag: 'lane', title: 'Дорожка', idLine: 0 },
-    public modalManager: TModalManager = {},
-    public lanesInfo: TLanesInfo = [
-      {
-        id: 0,
-        name: "Дорожка 13",
-        status: true,
-        progress: 10,
-        connected: true,
-        intervals: [
-          {
-            id: 0,
-            speed: 90,
-            distance: 500,
-            rest: 20,
-            repeat: 2,
-            temp: 400,
-            progress: 30,
-          },
-        ],
-      },
-      {
-        status: true,
-        id: 1,
-        name: "Дорожка 2",
-        intervals: [],
-        progress: 0,
-        connected: true,
-      },
-      {
-        status: true,
-        id: 2,
-        name: "Дорожка 2",
-        intervals: [],
-        progress: 0,
-        connected: true,
-      },
-    ],
-    public laneInfo: TLaneInfo = undefined,
-    public fetchErrorList: TErrorModal = [
-      // {
-      //   title: "Some",
-      //   description: "Description",
-      //   onClick: () => console.log("1234567"),
-      // },
-    ]
+    // public page: TNavigation = { pageTag: "main", title: "Дорожки" },
+    public page: TNavigation = { pageTag: "lane", title: "Дорожка", idLine: 0 },
+    public modalManager: TModalManager = {}
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
@@ -118,7 +67,6 @@ class TodoStore {
         idLine: pageNumber,
       };
       // Делаем дефолтные настройки страницы
-      this.laneInfo = undefined;
     });
   };
 
@@ -135,35 +83,6 @@ class TodoStore {
     body: Extract<TRequests, { url: "api/trackConnect" }>["payload"]
   ) => {
     axios.post("/api/startTrack", body).then((x) => console.log(x.data));
-  };
-
-  setFetchError = ({
-    onClick,
-    err,
-  }: {
-    err: AxiosError;
-    onClick: TErrorModal[number]["onClick"];
-  }) => {
-    const indexRepeat = this.fetchErrorList?.findIndex(
-      (itemOfError) => itemOfError.url === err?.response?.config.url
-    );
-    const itemError = {
-      title: "Ошибка подключения",
-      description: `${err?.response?.statusText ?? err.message} ${
-        err?.response?.config.url ?? ""
-      }`,
-      onClick,
-      url: err?.response?.config.url,
-    };
-    if (indexRepeat === -1) {
-      this.fetchErrorList?.push(itemError);
-    } else {
-      this.fetchErrorList[indexRepeat] = itemError;
-    }
-  };
-
-  clearFetchError = (url: string) => {
-    this.fetchErrorList = this.fetchErrorList.filter((err) => err.url !== url);
   };
 }
 

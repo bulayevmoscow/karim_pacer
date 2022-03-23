@@ -3,15 +3,14 @@ import { TRequests, TTrack } from '@monorepo/types'
 import { Response, Request, NextFunction } from 'express'
 import bodyParser from 'body-parser'
 import { TLanesInfo } from '@monorepo/front/src/store/storeTypes'
-import { appData, shortData, trackData } from './data'
+import { appData, shortData, trackDataEmpty, trackDataOne } from './data'
 
 const TIMEOUT = (time: number) => new Promise(resolve => setTimeout(resolve, time))
 
 const app = express()
 const port = process.env.PORT ?? 3005
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser())
 
 app.use('*', async (req: Request, res: Response, next: NextFunction) => {
   res.status(500)
@@ -54,11 +53,10 @@ app.post(
     next: NextFunction
   ) => {
     if (req.body.id === undefined) {
-      console.log(req.headers, req.body.id)
       throw new Error('No number')
     }
     res.status(200)
-    res.json(trackData.track)
+    res.json(trackDataOne)
   }
 )
 

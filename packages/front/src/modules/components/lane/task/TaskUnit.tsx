@@ -12,7 +12,6 @@ import { TFaceSubHeader } from "@modules/library/Typeface";
 
 export type TTaskUnit = {
   name: string;
-  isShutdown: boolean;
   speed?: number;
   distance?: number;
   rest?: number;
@@ -20,7 +19,7 @@ export type TTaskUnit = {
   tempo?: number;
   progress?: number;
   onClick?: (e: any) => void;
-  isClick: boolean;
+  isSelect: boolean;
 };
 
 export const TaskUnit: FC<TTaskUnit> = ({
@@ -31,15 +30,12 @@ export const TaskUnit: FC<TTaskUnit> = ({
   repeat,
   name,
   progress,
-  isShutdown,
   onClick,
-  isClick = false,
+  isSelect,
 }) => {
-  const disabledStatus =
-    (distance ?? rest ?? speed ?? tempo ?? repeat ?? false) === false;
-  const shutdownStatus = isShutdown || disabledStatus;
-  const borderColor =
-    (isClick && ((isShutdown && "#FB8888") || "#92E59B")) || "transparent";
+  const borderColor = isSelect ? "#92E59B" : "transparent";
+  const noData =
+    speed ?? distance ?? rest ?? repeat ?? tempo ?? progress ?? true;
   return (
     <div
       className={style.lane_container}
@@ -53,7 +49,7 @@ export const TaskUnit: FC<TTaskUnit> = ({
           <img src={IconEdit} alt="" />
         </div>
       </div>
-      {shutdownStatus ? undefined : (
+      {noData ? undefined : (
         <div className={`${style.lane_data_container}`}>
           <div className={style.unit}>
             <img src={IconSpeed} alt="" />
@@ -82,7 +78,7 @@ export const TaskUnit: FC<TTaskUnit> = ({
         </div>
       )}
 
-      {!shutdownStatus && progress !== undefined && (
+      {!noData && progress !== undefined && (
         <div
           className={style.track_progressbar}
           style={{

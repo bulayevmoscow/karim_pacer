@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { TRequests } from "@monorepo/types";
 import { axiosInstance } from "@utils/axiosInstance";
-import store from "@store";
 import { AxiosError } from "axios";
 const eventStart = (func: Function) => {
   return (e: MouseEvent) => {
@@ -13,8 +12,7 @@ const eventStart = (func: Function) => {
 
 export const useTracks = () => {
   const [showButtonPanel, setShowButtonPanel] = useState<number | false>(false);
-  const { setFetchError, fetchErrorList, clearFetchError } = store;
-  const [refetchInterval, setRefetchInterval] = useState<false | 5000>(5000);
+  const [refetchInterval, setRefetchInterval] = useState<false | 5000>(false);
   const axios = axiosInstance;
 
   useEffect(() => {
@@ -44,16 +42,9 @@ export const useTracks = () => {
       refetchOnWindowFocus: false,
       refetchOnMount: true,
       onSuccess: (data) => {
-        if (fetchErrorList?.length !== 0) {
-          clearFetchError(data.config.url ?? "");
-        }
-
         return data;
       },
-      onError: (err: AxiosError) => {
-        setFetchError({ onClick: refetch, err });
-        return Promise.reject(err);
-      },
+      onError: (err: AxiosError) => {},
     }
   );
   useEffect(() => {
