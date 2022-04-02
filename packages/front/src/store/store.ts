@@ -1,5 +1,5 @@
-import { makeAutoObservable, runInAction, spy } from "mobx";
-import { TInterval, TModalManager, TNavigation } from "./storeTypes";
+import { makeAutoObservable, spy } from "mobx";
+import { TInterval, TModalManager } from "./storeTypes";
 import { TRequests } from "@monorepo/types";
 
 import axios, { AxiosError } from "axios";
@@ -27,48 +27,10 @@ const TIMEOUT = (time: number = 1000) =>
 class TodoStore {
   constructor(
     // public page: TNavigation = { pageTag: "main", title: "Дорожки" },
-    public page: TNavigation = { pageTag: "lane", title: "Дорожка", idLine: 0 },
     public modalManager: TModalManager = {}
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
-
-  // Смена страницы
-  goToPage = (page: TNavigation["pageTag"]) => {
-    switch (page) {
-      case "main":
-        this.page = {
-          pageTag: "main",
-          title: "Дорожки",
-        };
-        break;
-
-      case "setting": {
-        this.page = {
-          pageTag: "setting",
-          title: "Настройки",
-        };
-        break;
-      }
-
-      default:
-        break;
-    }
-  };
-
-  goToLane = (
-    pageNumber: Extract<TNavigation, { title: "Дорожка" }>["idLine"]
-  ) => {
-    runInAction(() => {
-      // Изменияем страницу
-      this.page = {
-        pageTag: "lane",
-        title: "Дорожка",
-        idLine: pageNumber,
-      };
-      // Делаем дефолтные настройки страницы
-    });
-  };
 
   getTemplates = async () => {
     await TIMEOUT(200);

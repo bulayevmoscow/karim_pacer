@@ -2,15 +2,39 @@ import { observer } from "mobx-react-lite";
 import { useTracks } from "@modules/components/tracks/useTracks";
 import BodyTemplate from "@modules/library/templates/bodyTemplate/BodyTemplate";
 import { Button } from "@modules/library/Button";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { TrackUnit } from "@modules/components/tracks/unit/TrackUnit";
 import { Loader } from "@modules/library/Loader";
-import store from "@store";
+import { useNavigate } from "react-router-dom";
+import { routerList } from "@modules/components/Index";
+
+type TLinkCreator = {
+  pageName: keyof typeof routerList;
+  params?: { [key: string]: string };
+};
+
+const linkCreator = ({ pageName, params }: TLinkCreator) => {
+  // @ts-ignore
+  const url = new URL(routerList[pageName], window.location);
+  if (params) {
+    Object.keys(params).forEach((keyParams) => {
+      url.searchParams.append(keyParams, params[keyParams]);
+    });
+    // url.searchParams.append("1", "2");
+  }
+
+  return url;
+  // url
+};
 
 export const Tracks = observer(() => {
   const { data, isLoading, setShowButtonPanel, showButtonPanel, eventStart } =
     useTracks();
-  const { goToLane } = store;
+  const navigate = useNavigate();
+  useLayoutEffect(() => {
+    console.log(linkCreator({ pageName: "setting", params: { kek: "2" } }));
+  });
+
   return (
     <BodyTemplate.Container>
       <BodyTemplate.Main>
@@ -53,7 +77,7 @@ export const Tracks = observer(() => {
         <Button
           color="gray"
           onClick={(e) => {
-            goToLane(Number(showButtonPanel));
+            navigate(routerList.setting + "123");
             e.stopPropagation();
           }}
         >

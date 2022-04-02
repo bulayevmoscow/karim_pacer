@@ -9,10 +9,11 @@ import { useLane } from "@modules/components/lane/useLane";
 import { TaskUnit } from "@modules/components/lane/task/TaskUnit";
 
 export const Lane = observer(() => {
-  const { startInterval, page } = store;
+  const { startInterval } = store;
   const { data, isLoading, choiceLane, showButtonPanel } = useLane(0);
-  const laneNumber = page.pageTag === "lane" ? page.idLine : undefined;
-  console.log(laneNumber);
+  // const laneNumber = page.pageTag === "lane" ? page.idLine : undefined;
+  const laneNumber = 0;
+  // console.log(laneNumber);
   if (laneNumber === undefined) {
     throw new Error("No lane Number");
   }

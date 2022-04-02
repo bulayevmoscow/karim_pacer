@@ -49,7 +49,7 @@ export const useTracks = () => {
   );
   useEffect(() => {
     return () => remove();
-  }, []);
+  }, [remove]);
 
   useEffect(() => {
     if (isError && refetchInterval === 5000) {
