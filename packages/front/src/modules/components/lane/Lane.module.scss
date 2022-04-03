@@ -1,47 +1,6 @@
-.tracks {
-  flex: 1 1 100%;
-  overflow: hidden;
+.addIcon {
   display: flex;
-  flex-direction: column;
-
-  &_container {
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    flex-grow: 1;
-
-    .tracks_list {
-      margin: 32px 16px;
-
-      > * {
-        margin-bottom: 24px;
-      }
-    }
-  }
-
-  &_buttons_container {
-    margin: 15px 16px 13px 16px;
-    display: flex;
-    justify-content: space-between;
-  }
-}
-
-.loading_icon_container {
-  margin: auto;
-
-  img {
-    animation: spin 5s linear infinite;
-    width: 50%;
-    margin: auto;
-    display: block;
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  height: 40px;
+  width: 40px;
+  margin: 0 auto 15px auto;
 }

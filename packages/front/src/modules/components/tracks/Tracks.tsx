@@ -77,7 +77,7 @@ export const Tracks = observer(() => {
         <Button
           color="gray"
           onClick={(e) => {
-            navigate(routerList.setting + "123");
+            navigate(routerList.lane + "/" + showButtonPanel);
             e.stopPropagation();
           }}
         >

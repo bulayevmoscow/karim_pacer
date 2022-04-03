@@ -39,11 +39,6 @@ export const useTracks = () => {
       enabled: true,
       retry: false,
       refetchInterval,
-      refetchOnWindowFocus: false,
-      refetchOnMount: true,
-      onSuccess: (data) => {
-        return data;
-      },
       onError: (err: AxiosError) => {},
     }
   );
