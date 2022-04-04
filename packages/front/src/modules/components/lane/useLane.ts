@@ -3,6 +3,7 @@ import { axiosInstance } from "@utils/axiosInstance";
 import { TRequests } from "@monorepo/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import store from "@store";
 
 const axios = axiosInstance;
 
@@ -16,6 +17,10 @@ export const useLane = (laneNumber: number) => {
       { id: laneNumber }
     )
   );
+
+  useEffect(() => {
+    store.laneID = Number(idLane);
+  }, [idLane]);
 
   useEffect(() => {
     const event = () => {

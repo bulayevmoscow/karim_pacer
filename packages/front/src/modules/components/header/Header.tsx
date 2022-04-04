@@ -3,11 +3,11 @@ import { Routes, Route } from "react-router-dom";
 import { routerList } from "@modules/components/Index";
 import { TFaceHeader } from "@modules/library/Typeface";
 import iconAdd from "@modules/icons/h_plus.svg";
-import { matchPath } from "react-router";
+import { observer } from "mobx-react-lite";
+import store from "@store";
 
-export const Header = () => {
-  const matchLaneId = matchPath({ path: "/lane/:id" }, location.pathname)
-    ?.params.id;
+export const Header = observer(() => {
+  const { laneID } = store;
   return (
     <div className={style.header_container}>
       <Routes>
@@ -21,10 +21,14 @@ export const Header = () => {
         />
         <Route
           path={routerList.lane + "/:id"}
-          element={<TFaceHeader>{"Линия " + matchLaneId}</TFaceHeader>}
+          element={<TFaceHeader>{"Линия " + laneID}</TFaceHeader>}
+        />
+        <Route
+          path={routerList.addInterval}
+          element={<TFaceHeader>{"Добавить интервал " + laneID}</TFaceHeader>}
         />
       </Routes>
       <img src={iconAdd} alt="" />
     </div>
   );
-};
+});
