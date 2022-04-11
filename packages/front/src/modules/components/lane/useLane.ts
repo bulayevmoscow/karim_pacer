@@ -1,53 +1,70 @@
 import { useQuery } from "react-query";
 import { axiosInstance } from "@utils/axiosInstance";
 import { TRequests } from "@monorepo/types";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useCallback, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import store from "@store";
 
 const axios = axiosInstance;
 
-export const useLane = (laneNumber: number) => {
-  const [showButtonPanel, setShowButtonPanel] = useState<number | false>(false);
-  const { id: idLane } = useParams();
-  console.log(idLane);
-  const { data, isLoading } = useQuery("LaneData", () =>
+export const useLane = () => {
+  const { idLane } = useParams();
+  const navigate = useNavigate();
+  const {
+    data,
+    isLoading,
+    refetch: refreshLaneData,
+  } = useQuery("LaneData", () =>
     axios.post<Extract<TRequests, { url: "api/trackData" }>["res"]>(
       "/api/trackData",
-      { id: laneNumber }
+      { id: Number(idLane) }
     )
   );
+
+  const addInterval = useCallback(() => {
+    navigate(`/lane/${idLane}/addInterval`);
+  }, [idLane, navigate]);
+
+  const { refetch: manageInterval } = useQuery(
+    "api/start",
+    async () => {
+      const body: Extract<TRequests, { url: "/api/startTrack" }>["payload"] = {
+        id: Number(idLane),
+        status: data?.data?.status !== "PROGRESS",
+      };
+      const req = await axios.post<
+        Extract<TRequests, { url: "/api/startTrack" }>["res"]
+      >("/api/startTrack", body);
+      refreshLaneData();
+      return req;
+    },
+    { enabled: false }
+  );
+
+  const deleteInterval = async ({ id }: { id: number }) => {
+    try {
+      const body: Extract<TRequests, { url: "/api/delInterval" }>["payload"] = {
+        // eslint-disable-next-line camelcase
+        track_id: Number(idLane),
+        id,
+      };
+      await axios.post("/api/delInterval", body);
+      refreshLaneData();
+    } catch (e) {
+      // eslint-disable-next-line no-alert
+      alert(e);
+    }
+  };
 
   useEffect(() => {
     store.laneID = Number(idLane);
   }, [idLane]);
 
-  useEffect(() => {
-    const event = () => {
-      if (showButtonPanel !== false) {
-        setShowButtonPanel(false);
-      }
-    };
-
-    if (document.body) {
-      document.body.addEventListener("click", event);
-    }
-
-    return () => {
-      document.body.removeEventListener("click", event);
-    };
-  }, [showButtonPanel]);
-
-  const choiceLane = (e: Event, laneNumber: number) => {
-    setShowButtonPanel(laneNumber);
-  };
-
-  console.log(data?.data);
-
   return {
     data,
     isLoading,
-    choiceLane,
-    showButtonPanel,
+    addInterval,
+    manageInterval,
+    deleteInterval,
   };
 };

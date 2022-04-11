@@ -18,8 +18,8 @@ export type TTaskUnit = {
   repeat?: number;
   tempo?: number;
   progress?: number;
-  onClick?: (e: any) => void;
-  isSelect: boolean;
+  onDeleteClick: (e: any) => void;
+  // isSelect: boolean;
 };
 
 export const TaskUnit: FC<TTaskUnit> = ({
@@ -30,62 +30,51 @@ export const TaskUnit: FC<TTaskUnit> = ({
   repeat,
   name,
   progress,
-  onClick,
-  isSelect,
+  onDeleteClick,
 }) => {
-  const borderColor = isSelect ? "#92E59B" : "transparent";
-  const noData =
-    speed ?? distance ?? rest ?? repeat ?? tempo ?? progress ?? true;
   return (
-    <div
-      className={style.lane_container}
-      onClick={onClick}
-      style={{ borderColor }}
-    >
+    <div className={style.lane_container}>
       <div className={style.lane_header}>
         <TFaceSubHeader>{name}</TFaceSubHeader>
         <div className={style.icons_container}>
-          <img src={IconDelete} alt="" />
+          <img src={IconDelete} alt="" onClick={onDeleteClick} />
           <img src={IconEdit} alt="" />
         </div>
       </div>
-      {noData ? undefined : (
-        <div className={`${style.lane_data_container}`}>
-          <div className={style.unit}>
-            <img src={IconSpeed} alt="" />
-            {speed}
-          </div>
 
-          <div className={style.unit}>
-            <img src={IconDistance} alt="" />
-            {distance}
-          </div>
-
-          <div className={style.unit}>
-            <img src={IconRest} alt="" />
-            {rest}
-          </div>
-
-          <div className={style.unit}>
-            <img src={IconRepeat} alt="" />
-            {repeat}
-          </div>
-
-          <div className={style.unit}>
-            <img src={IconTempo} alt="" />
-            {tempo}
-          </div>
+      <div className={`${style.lane_data_container}`}>
+        <div className={style.unit}>
+          <img src={IconSpeed} alt="" />
+          {speed}
         </div>
-      )}
 
-      {!noData && progress !== undefined && (
-        <div
-          className={style.track_progressbar}
-          style={{
-            backgroundSize: `${progress}%, 0px, 0%`,
-          }}
-        />
-      )}
+        <div className={style.unit}>
+          <img src={IconDistance} alt="" />
+          {distance}
+        </div>
+
+        <div className={style.unit}>
+          <img src={IconRest} alt="" />
+          {rest}
+        </div>
+
+        <div className={style.unit}>
+          <img src={IconRepeat} alt="" />
+          {repeat}
+        </div>
+
+        <div className={style.unit}>
+          <img src={IconTempo} alt="" />
+          {tempo}
+        </div>
+      </div>
+
+      <div
+        className={style.lane_progress_bar}
+        style={{
+          backgroundSize: `${progress}%, 0px, 0%`,
+        }}
+      />
     </div>
   );
 };

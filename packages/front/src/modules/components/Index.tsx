@@ -21,7 +21,7 @@ export const Index = observer(() => {
       <Header />
       <Routes>
         <Route path={routerList.home} element={<Tracks />} />
-        <Route path={routerList.lane + "/:id"} element={<Lane />} />
+        <Route path={routerList.lane + "/:idLane"} element={<Lane />} />
         <Route path={routerList.setting} element={<Settings />} />
         <Route path={routerList.addInterval} element={<AddInterval />} />
       </Routes>

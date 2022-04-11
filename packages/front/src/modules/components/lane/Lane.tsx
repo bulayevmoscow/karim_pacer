@@ -10,68 +10,60 @@ import addIcon from "@modules/icons/plus.png";
 import style from "./Lane.module.scss";
 
 export const Lane = observer(() => {
-  const { data, isLoading, choiceLane, showButtonPanel } = useLane(0);
-
+  const { data, isLoading, manageInterval, addInterval, deleteInterval } =
+    useLane();
   return (
     <>
       <BodyTemplate.Container>
         <BodyTemplate.Main>
-          {data?.data?.intervals?.map((lane, index) => (
+          {data?.data?.intervals?.map((interval, index) => (
             <TaskUnit
               key={index}
-              tempo={lane.temp}
-              repeat={lane.repeat}
-              rest={lane.rest}
-              distance={lane.distance}
-              speed={lane.speed}
-              name={"no name " + index}
-              progress={lane.progress}
-              isSelect={showButtonPanel === index}
-              onClick={(e) => choiceLane(e, index)}
+              tempo={interval.temp}
+              repeat={interval.repeat}
+              rest={interval.rest}
+              distance={interval.distance}
+              speed={interval.speed}
+              name={"Интервал " + interval.id}
+              progress={interval.progress}
+              onDeleteClick={() => {
+                deleteInterval({ id: interval.id });
+              }}
             />
           ))}
-          {data?.data?.intervals?.map((lane, index) => (
-            <TaskUnit
-              key={index}
-              tempo={lane.temp}
-              repeat={lane.repeat}
-              rest={lane.rest}
-              distance={lane.distance}
-              speed={lane.speed}
-              name={"no name " + index}
-              progress={lane.progress}
-              isSelect={showButtonPanel === index}
-              onClick={(e) => choiceLane(e, index)}
+          {!isLoading && (
+            <img
+              src={addIcon}
+              className={style.addIcon}
+              alt=""
+              onClick={() => addInterval()}
             />
-          ))}
-          {!isLoading && <img src={addIcon} className={style.addIcon} alt="" />}
+          )}
           {isLoading && <Loader />}
         </BodyTemplate.Main>
-        <BodyTemplate.Buttons show={showButtonPanel !== false}>
-          <Button
-            color="red"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            Отключить
-          </Button>
-          <Button
-            color="green"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            Включить
-          </Button>
-          <Button
-            color="gray"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            Редактировать
-          </Button>
+        <BodyTemplate.Buttons show={!isLoading}>
+          {data?.data?.status === "PROGRESS" && (
+            <Button
+              color="red"
+              onClick={(e) => {
+                manageInterval();
+                e.stopPropagation();
+              }}
+            >
+              Отключить
+            </Button>
+          )}
+          {data?.data?.status === "IDLE" && (
+            <Button
+              color="green"
+              onClick={(e) => {
+                manageInterval();
+                e.stopPropagation();
+              }}
+            >
+              Включить
+            </Button>
+          )}
         </BodyTemplate.Buttons>
       </BodyTemplate.Container>
     </>

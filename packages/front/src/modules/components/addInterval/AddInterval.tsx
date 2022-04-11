@@ -6,14 +6,27 @@ import restIcon from "@modules/icons/unit/rest.png";
 import repeatIcon from "@modules/icons/unit/repeat.png";
 import tempoIcon from "@modules/icons/unit/tempo.png";
 import style from "./AddInterval.module.scss";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import axios from "axios";
 import { Button } from "@modules/library/Button";
+import { TRequests } from "@monorepo/types";
+import axios from "axios";
+
 type TIntervalTemplate = {
   icon: string;
   title: string;
 };
+
+type TConfig = {
+  speed: string;
+  distance: string;
+  rest: string;
+  repeat: string;
+  tempo: string;
+};
+
+type TBodyRequest = Extract<TRequests, { url: "/api/addInterval" }>["payload"];
+
 const IntervalTemplate: FC<TIntervalTemplate> = ({ icon, title, children }) => {
   return (
     <div className={style.add_interval_template__container}>
@@ -27,26 +40,42 @@ const IntervalTemplate: FC<TIntervalTemplate> = ({ icon, title, children }) => {
 };
 
 export const AddInterval: FC = () => {
-  const { idLane } = useParams();
-  const { data } = useQuery("addInterval", () => axios.post("/"), {
-    enabled: false,
-  });
-
-  type TConfig = {
-    speed: number | undefined;
-    distance: number | undefined;
-    rest: number | undefined;
-    repeat: number | undefined;
-    tempo: number | undefined;
-  };
-
   const [config, setConfig] = useState<TConfig>({
-    speed: undefined,
-    distance: undefined,
-    rest: undefined,
-    repeat: undefined,
-    tempo: undefined,
+    speed: "2",
+    distance: "3",
+    rest: "4",
+    repeat: "5",
+    tempo: "6",
   });
+
+  const { idLane } = useParams();
+  const navigate = useNavigate();
+  const { refetch: addInterval } = useQuery(
+    "addInterval",
+    () => {
+      const params: TBodyRequest = {
+        // eslint-disable-next-line camelcase
+        track_id: Number(idLane),
+        interval: {
+          id: 0,
+          progress: 0,
+          speed: Number(config.speed),
+          distance: Number(config.distance),
+          rest: Number(config.rest),
+          repeat: Number(config.repeat),
+          temp: Number(config.tempo),
+        },
+      };
+      return axios.post("/api/addInterval", params);
+    },
+    {
+      enabled: false,
+      onSuccess: () => navigate(-1),
+      // eslint-disable-next-line no-alert
+      onError: (err) => alert(err),
+      retry: false,
+    }
+  );
 
   const changeEvent = (
     event: ChangeEvent<HTMLInputElement>,
@@ -105,16 +134,21 @@ export const AddInterval: FC = () => {
         <Button
           color={"blue"}
           disabled={
-            config.distance === undefined ||
-            config.tempo === undefined ||
-            config.repeat === undefined ||
-            config.rest === undefined ||
-            config.speed === undefined
+            config.distance === "" ||
+            config.tempo === "" ||
+            config.repeat === "" ||
+            config.rest === "" ||
+            config.speed === ""
           }
+          onClick={() => {
+            addInterval();
+          }}
         >
           Сохранить
         </Button>
-        <Button color={"red"}>Назад</Button>
+        <Button color={"red"} onClick={() => navigate(-1)}>
+          Назад
+        </Button>
       </BodyTemplate.Buttons>
     </>
   );

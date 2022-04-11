@@ -16,7 +16,7 @@ export type TTrack = {
   connected: boolean
   status: 'IDLE' | 'PROGRESS' | 'DISCONNECT'
   progress: number
-  intervals: TInterval[] | []
+  intervals: TInterval[]
 }
 
 export type TLane = TTrack
@@ -26,7 +26,7 @@ export type TRequests =
   | {
       url: 'api/shortData'
       payload: undefined
-      res: TTrack[] | [] // пример simpleData
+      res: TTrack[] // пример simpleData
     }
   | {
       url: 'api/trackConnect'
@@ -37,12 +37,25 @@ export type TRequests =
       res: TTrack[] // пример task5Intervals Полная информация о дорожке
     }
   | {
+      url: '/api/startTrack'
+      payload: {
+        id: number
+        status: boolean
+      }
+      res: undefined // пример task5Intervals Полная информация о дорожке
+    }
+  | {
       url: 'api/trackData'
       payload: {
         id: number
       }
-      res: TTrack // пример task5Intervals Полная информация о дорожке
+      res?: TTrack // пример task5Intervals Полная информация о дорожке
     }
+  | {
+      url: '/api/addInterval'
+      payload: { track_id: number; interval: TInterval & { id: 0 } }
+    }
+  | { url: '/api/delInterval'; payload: { track_id: number; id: number }; res: undefined }
   | {
       url: 'api/getTemplates'
       payload: {}
