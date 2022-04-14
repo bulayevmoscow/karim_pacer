@@ -28,8 +28,14 @@ const linkCreator = ({ pageName, params }: TLinkCreator) => {
 };
 
 export const Tracks = observer(() => {
-  const { data, isLoading, setShowButtonPanel, showButtonPanel, eventStart } =
-    useTracks();
+  const {
+    data,
+    isLoading,
+    setShowButtonPanel,
+    showButtonPanel,
+    eventStart,
+    manageInterval,
+  } = useTracks();
   const navigate = useNavigate();
   useLayoutEffect(() => {
     console.log(linkCreator({ pageName: "setting", params: { kek: "2" } }));
@@ -44,7 +50,7 @@ export const Tracks = observer(() => {
             <TrackUnit
               key={lane.id}
               name={lane.name ?? "No track name"}
-              isDiconnected={!lane.connected}
+              isDiconnected={lane.status === "DISCONNECT"}
               {...lane.intervals[0]}
               progress={lane.progress}
               onClick={eventStart(() =>
@@ -60,28 +66,43 @@ export const Tracks = observer(() => {
       <BodyTemplate.Buttons show={showButtonPanel !== false}>
         <Button
           color="red"
+          show={data && data[Number(showButtonPanel)].status === "PROGRESS"}
           onClick={(e) => {
+            manageInterval();
             e.stopPropagation();
           }}
         >
-          Отключить
+          Стоп
         </Button>
         <Button
           color="green"
+          show={data && data[Number(showButtonPanel)].status === "IDLE"}
           onClick={(e) => {
+            manageInterval();
             e.stopPropagation();
           }}
         >
-          Включить
+          Старт
         </Button>
         <Button
           color="gray"
+          disabled={true}
+          show={data && data[Number(showButtonPanel)].status === "DISCONNECT"}
+          onClick={(e) => {
+            manageInterval();
+            e.stopPropagation();
+          }}
+        >
+          Подключить
+        </Button>
+        <Button
+          color="blue"
           onClick={(e) => {
             navigate(routerList.lane + "/" + showButtonPanel);
             e.stopPropagation();
           }}
         >
-          Редактировать
+          Редактировать тренировку
         </Button>
       </BodyTemplate.Buttons>
     </BodyTemplate.Container>

@@ -41,11 +41,11 @@ const IntervalTemplate: FC<TIntervalTemplate> = ({ icon, title, children }) => {
 
 export const AddInterval: FC = () => {
   const [config, setConfig] = useState<TConfig>({
-    speed: "2",
-    distance: "3",
-    rest: "4",
-    repeat: "5",
-    tempo: "6",
+    speed: "",
+    distance: "",
+    rest: "",
+    repeat: "",
+    tempo: "",
   });
 
   const { idLane } = useParams();
@@ -97,6 +97,7 @@ export const AddInterval: FC = () => {
                 type="text"
                 onChange={(e) => changeEvent(e, "speed")}
                 value={config.speed}
+                placeholder={"0"}
               />
             </IntervalTemplate>
             <IntervalTemplate icon={distanceIcon} title="Дистанция (в метрах)">
@@ -104,6 +105,7 @@ export const AddInterval: FC = () => {
                 type="text"
                 onChange={(e) => changeEvent(e, "distance")}
                 value={config.distance}
+                placeholder={"0"}
               />
             </IntervalTemplate>
             <IntervalTemplate icon={restIcon} title="Отдых (в сек)">
@@ -111,6 +113,7 @@ export const AddInterval: FC = () => {
                 type="text"
                 onChange={(e) => changeEvent(e, "rest")}
                 value={config.rest}
+                placeholder={"0"}
               />
             </IntervalTemplate>
             <IntervalTemplate icon={repeatIcon} title="Кол-во поворотов">
@@ -118,6 +121,7 @@ export const AddInterval: FC = () => {
                 type="text"
                 onChange={(e) => changeEvent(e, "repeat")}
                 value={config.repeat}
+                placeholder={"0"}
               />
             </IntervalTemplate>
             <IntervalTemplate icon={tempoIcon} title="Темп (в м.сек)">
@@ -125,6 +129,7 @@ export const AddInterval: FC = () => {
                 type="text"
                 onChange={(e) => changeEvent(e, "tempo")}
                 value={config.tempo}
+                placeholder={"0"}
               />
             </IntervalTemplate>
           </div>

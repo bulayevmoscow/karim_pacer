@@ -10,10 +10,11 @@ const eventStart = (func: Function) => {
   };
 };
 
+const axios = axiosInstance;
+
 export const useTracks = () => {
   const [showButtonPanel, setShowButtonPanel] = useState<number | false>(false);
   const [refetchInterval, setRefetchInterval] = useState<false | 5000>(false);
-  const axios = axiosInstance;
 
   useEffect(() => {
     const event = () => {
@@ -46,6 +47,24 @@ export const useTracks = () => {
     return () => remove();
   }, [remove]);
 
+  const { refetch: manageInterval } = useQuery(
+    "api/start",
+    async () => {
+      const body: Extract<TRequests, { url: "/api/startTrack" }>["payload"] = {
+        id: Number(showButtonPanel),
+        status: data?.data[Number(showButtonPanel)].status !== "PROGRESS",
+      };
+      const req = await axios.post<
+        Extract<TRequests, { url: "/api/startTrack" }>["res"]
+      >("/api/startTrack", body);
+      await refetch();
+      return req;
+    },
+    { enabled: false, retry: false }
+  );
+
+  console.log(data?.data[Number(showButtonPanel)].status);
+
   useEffect(() => {
     if (isError && refetchInterval === 5000) {
       setRefetchInterval(false);
@@ -61,5 +80,6 @@ export const useTracks = () => {
     showButtonPanel,
     setShowButtonPanel,
     eventStart,
+    manageInterval,
   };
 };

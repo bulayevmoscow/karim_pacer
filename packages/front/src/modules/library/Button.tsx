@@ -3,17 +3,19 @@ import { FC, MouseEventHandler } from "react";
 
 type TButton = {
   color: "green" | "blue" | "red" | "gray";
+  show?: boolean;
   disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 export const Button: FC<TButton> = ({
   disabled = false,
+  show = true,
   color = "gray",
   children,
   onClick,
 }) => {
-  if (!children) {
+  if (!children || !show) {
     return null;
   }
 

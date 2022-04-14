@@ -29,6 +29,9 @@
       box-sizing: border-box;
       font-size: 14px;
       border-radius: 9px;
+      &::placeholder {
+        color: gray;
+      }
       &:focus {
         outline: none !important;
         border-color: #719ece;
