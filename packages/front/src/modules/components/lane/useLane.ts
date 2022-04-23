@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { axiosInstance } from "@utils/axiosInstance";
 import { TRequests } from "@monorepo/types";
 import { useCallback, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { createSearchParams, useNavigate, useParams } from "react-router-dom";
 import store from "@store";
 
 const axios = axiosInstance;
@@ -14,16 +14,47 @@ export const useLane = () => {
     data,
     isLoading,
     refetch: refreshLaneData,
-  } = useQuery("LaneData", () =>
-    axios.post<Extract<TRequests, { url: "api/trackData" }>["res"]>(
-      "/api/trackData",
-      { id: Number(idLane) }
-    )
+  } = useQuery(
+    "LaneData",
+    () =>
+      axios
+        .post<Extract<TRequests, { url: "api/trackData" }>["res"]>(
+          "/api/trackData",
+          { id: Number(idLane) }
+        )
+        .then((res) => {
+          res.data?.intervals?.sort((a, b) => a.id - b.id);
+          return res;
+        }),
+    {
+      refetchInterval: 5000,
+    }
   );
 
   const addInterval = useCallback(() => {
     navigate(`/lane/${idLane}/addInterval`);
   }, [idLane, navigate]);
+
+  const editInterval = (params: {
+    intervalId: number;
+    speed: number;
+    distance: number;
+    rest: number;
+    repeat: number;
+    tempo: number;
+  }) => {
+    const editedParams: Record<string, string> = {};
+    Object.keys(params).forEach((key) => {
+      editedParams[key] = String(params[key as keyof typeof params]);
+      console.log("editedParams[key]", editedParams[key]);
+    });
+    console.log(editedParams);
+    console.log(`?${createSearchParams(editedParams)}`);
+    navigate({
+      pathname: `/lane/${idLane}/editInterval`,
+      search: `?${createSearchParams(editedParams)}`,
+    });
+  };
 
   const { refetch: manageInterval } = useQuery(
     "api/start",
@@ -66,5 +97,6 @@ export const useLane = () => {
     addInterval,
     manageInterval,
     deleteInterval,
+    editInterval,
   };
 };

@@ -10,8 +10,14 @@ import addIcon from "@modules/icons/plus.png";
 import style from "./Lane.module.scss";
 
 export const Lane = observer(() => {
-  const { data, isLoading, manageInterval, addInterval, deleteInterval } =
-    useLane();
+  const {
+    data,
+    isLoading,
+    manageInterval,
+    addInterval,
+    deleteInterval,
+    editInterval,
+  } = useLane();
   return (
     <>
       <BodyTemplate.Container>
@@ -28,6 +34,16 @@ export const Lane = observer(() => {
               progress={interval.progress}
               onDeleteClick={() => {
                 deleteInterval({ id: interval.id });
+              }}
+              onEditClick={() => {
+                editInterval({
+                  intervalId: interval.id,
+                  speed: interval.speed,
+                  tempo: interval.temp,
+                  repeat: interval.repeat,
+                  rest: interval.rest,
+                  distance: interval.distance,
+                });
               }}
             />
           ))}

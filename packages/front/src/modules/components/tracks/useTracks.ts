@@ -35,7 +35,12 @@ export const useTracks = () => {
   type TReq = Extract<TRequests, { url: "api/shortData" }>["res"];
   const { data, isLoading, refetch, isError, remove } = useQuery(
     "Tracks",
-    () => axios.post<TReq>("/api/shortData"),
+    () =>
+      axios.post<TReq>("/api/shortData").then((res) => {
+        res.data = res.data.sort((a, b) => a.id - b.id);
+        console.log(res);
+        return res;
+      }),
     {
       enabled: true,
       retry: false,

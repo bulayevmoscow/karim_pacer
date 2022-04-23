@@ -13,6 +13,7 @@ export const routerList = {
   lane: "/lane",
   addInterval: "/lane/:idLane/addInterval",
   setting: "/setting",
+  editInterval: "/lane/:idLane/editInterval",
 } as const;
 
 export const Index = observer(() => {
@@ -23,7 +24,14 @@ export const Index = observer(() => {
         <Route path={routerList.home} element={<Tracks />} />
         <Route path={routerList.lane + "/:idLane"} element={<Lane />} />
         <Route path={routerList.setting} element={<Settings />} />
-        <Route path={routerList.addInterval} element={<AddInterval />} />
+        <Route
+          path={routerList.addInterval}
+          element={<AddInterval isEdit={false} />}
+        />
+        <Route
+          path={routerList.editInterval}
+          element={<AddInterval isEdit={true} />}
+        />
       </Routes>
       <Footer />
     </div>

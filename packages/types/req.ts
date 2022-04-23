@@ -55,6 +55,10 @@ export type TRequests =
       url: '/api/addInterval'
       payload: { track_id: number; interval: TInterval & { id: 0 } }
     }
+  | {
+      url: '/api/editInterval'
+      payload: { track_id: number; interval: TInterval }
+    }
   | { url: '/api/delInterval'; payload: { track_id: number; id: number }; res: undefined }
   | {
       url: 'api/getTemplates'

@@ -18,6 +18,7 @@ type TIntervalTemplate = {
 };
 
 type TConfig = {
+  intervalId: string;
   speed: string;
   distance: string;
   rest: string;
@@ -25,7 +26,14 @@ type TConfig = {
   tempo: string;
 };
 
-type TBodyRequest = Extract<TRequests, { url: "/api/addInterval" }>["payload"];
+type TAddBodyRequest = Extract<
+  TRequests,
+  { url: "/api/addInterval" }
+>["payload"];
+type TEditBodyRequest = Extract<
+  TRequests,
+  { url: "/api/editInterval" }
+>["payload"];
 
 const IntervalTemplate: FC<TIntervalTemplate> = ({ icon, title, children }) => {
   return (
@@ -39,21 +47,24 @@ const IntervalTemplate: FC<TIntervalTemplate> = ({ icon, title, children }) => {
   );
 };
 
-export const AddInterval: FC = () => {
+export const AddInterval: FC<{ isEdit: boolean }> = ({ isEdit }) => {
+  const params = new URLSearchParams(window.location.search);
   const [config, setConfig] = useState<TConfig>({
-    speed: "",
-    distance: "",
-    rest: "",
-    repeat: "",
-    tempo: "",
+    intervalId: params.get("intervalId") ?? "",
+    speed: params.get("speed") ?? "",
+    distance: params.get("distance") ?? "",
+    rest: params.get("rest") ?? "",
+    repeat: params.get("repeat") ?? "",
+    tempo: params.get("tempo") ?? "",
   });
 
   const { idLane } = useParams();
+  console.log("idLane", idLane);
   const navigate = useNavigate();
   const { refetch: addInterval } = useQuery(
     "addInterval",
     () => {
-      const params: TBodyRequest = {
+      const params: TAddBodyRequest = {
         // eslint-disable-next-line camelcase
         track_id: Number(idLane),
         interval: {
@@ -67,6 +78,33 @@ export const AddInterval: FC = () => {
         },
       };
       return axios.post("/api/addInterval", params);
+    },
+    {
+      enabled: false,
+      onSuccess: () => navigate(-1),
+      // eslint-disable-next-line no-alert
+      onError: (err) => alert(err),
+      retry: false,
+    }
+  );
+
+  const { refetch: editInterval } = useQuery(
+    "editInterval",
+    () => {
+      const params: TEditBodyRequest = {
+        // eslint-disable-next-line camelcase
+        track_id: Number(idLane),
+        interval: {
+          id: Number(config.intervalId),
+          progress: 0,
+          speed: Number(config.speed),
+          distance: Number(config.distance),
+          rest: Number(config.rest),
+          repeat: Number(config.repeat),
+          temp: Number(config.tempo),
+        },
+      };
+      return axios.post("/api/editInterval", params);
     },
     {
       enabled: false,
@@ -146,7 +184,11 @@ export const AddInterval: FC = () => {
             config.speed === ""
           }
           onClick={() => {
-            addInterval();
+            if (isEdit) {
+              editInterval();
+            } else {
+              addInterval();
+            }
           }}
         >
           Сохранить

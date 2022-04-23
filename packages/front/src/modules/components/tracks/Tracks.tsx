@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useTracks } from "@modules/components/tracks/useTracks";
 import BodyTemplate from "@modules/library/templates/bodyTemplate/BodyTemplate";
 import { Button } from "@modules/library/Button";
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import { TrackUnit } from "@modules/components/tracks/unit/TrackUnit";
 import { Loader } from "@modules/library/Loader";
 import { useNavigate } from "react-router-dom";
@@ -37,9 +37,6 @@ export const Tracks = observer(() => {
     manageInterval,
   } = useTracks();
   const navigate = useNavigate();
-  useLayoutEffect(() => {
-    console.log(linkCreator({ pageName: "setting", params: { kek: "2" } }));
-  });
 
   return (
     <BodyTemplate.Container>

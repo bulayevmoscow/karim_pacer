@@ -52,6 +52,28 @@ app.post(
   }
 )
 
+// type NonNullable<T> = T extends null | undefined ? never : T;
+// type Extract<T, U> = T extends U ? T : never;
+
+type TApiData<T extends TRequests['url'], U extends keyof TRequests> = Extract<TRequests, { url: T }>[U]
+
+app.post(
+  '/api/editInterval',
+  (
+    req: Request<{}, {}, Extract<TRequests, { url: 'api/editInterval' }>['payload']>,
+    res: Response<Extract<TRequests, { url: 'api/editInterval' }>['res']>,
+    next: NextFunction
+  ) => {
+    if (req.body) {
+      DataStorage.editInterval(req.body)
+      res.status(200).send()
+    } else {
+      res.status(400).send()
+    }
+    next()
+  }
+)
+
 app.post(
   '/api/delInterval',
   (

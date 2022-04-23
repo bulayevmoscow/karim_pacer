@@ -1,4 +1,5 @@
 import { TRequests, TTrack, TLane, TInterval } from '@monorepo/types'
+import internal from 'stream'
 
 const appData: { tracks: TTrack[] } = {
   tracks: [
@@ -115,6 +116,14 @@ class DataStorage {
     }, -1)
     this.tracks[track_id].intervals = [...this.tracks[track_id].intervals, { ...interval, id: id + 1, progress: 0 }]
     console.log(this.tracks[track_id].intervals)
+  }
+
+  editInterval = ({ track_id, interval }: Extract<TRequests, { url: '/api/editInterval' }>['payload']) => {
+    try {
+      this.tracks[track_id].intervals[interval.id] = interval
+    } catch (e) {
+      console.error('editInterval error', e)
+    }
   }
 
   deleteInterval = ({ track_id, id }: Extract<TRequests, { url: '/api/delInterval' }>['payload']) => {

@@ -19,7 +19,7 @@ export type TTaskUnit = {
   tempo?: number;
   progress?: number;
   onDeleteClick: (e: any) => void;
-  // isSelect: boolean;
+  onEditClick: (e: any) => void;
 };
 
 export const TaskUnit: FC<TTaskUnit> = ({
@@ -31,6 +31,7 @@ export const TaskUnit: FC<TTaskUnit> = ({
   name,
   progress,
   onDeleteClick,
+  onEditClick,
 }) => {
   return (
     <div className={style.lane_container}>
@@ -38,7 +39,7 @@ export const TaskUnit: FC<TTaskUnit> = ({
         <TFaceSubHeader>{name}</TFaceSubHeader>
         <div className={style.icons_container}>
           <img src={IconDelete} alt="" onClick={onDeleteClick} />
-          <img src={IconEdit} alt="" />
+          <img src={IconEdit} alt="" onClick={onEditClick} />
         </div>
       </div>
 
