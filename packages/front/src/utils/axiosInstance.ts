@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  // timeout: 1000,
+	// timeout: 1000,
 });
 
 // axiosInstance.interceptors.response.use(

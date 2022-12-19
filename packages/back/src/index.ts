@@ -29,29 +29,29 @@ app.post(
   (
     req: Request<{}, {}, Extract<TRequests, { url: 'api/trackconnect' }>['payload']>,
     res: Response<Extract<TRequests, { url: 'api/trackconnect' }>['res']>,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     res.status(400).send()
     next()
-  }
+  },
 )
 
 app.post(
   '/api/shortData',
   (
     _req: Request<{}, {}, Extract<TRequests, { url: 'api/shortData' }>['payload']>,
-    res: Response<Extract<TRequests, { url: 'api/shortData' }>['res']>
+    res: Response<Extract<TRequests, { url: 'api/shortData' }>['res']>,
   ) => {
     const resBody: Extract<TRequests, { url: 'api/shortData' }>['res'] = appData.tracks
     res.status(200).json(shortData)
-  }
+  },
 )
 app.post(
   '/api/trackData',
   (
     req: Request<{}, {}, Extract<TRequests, { url: 'api/trackData' }>['payload']>,
     res: Response<Extract<TRequests, { url: 'api/trackData' }>['res']>,
-    next: NextFunction
+    next: NextFunction,
   ) => {
     if (req.body.id === undefined) {
       console.log(req.headers, req.body.id)
@@ -59,7 +59,7 @@ app.post(
     }
     res.status(200)
     res.json(trackData.track)
-  }
+  },
 )
 
 app.listen(port, () => console.log(`Running on port ${port}\n`))
