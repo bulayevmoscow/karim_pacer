@@ -1,35 +1,17 @@
-.settings {
-  flex: 1 1 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+.container {
+}
+
+.color {
   &_container {
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
-    flex-grow: 1;
-    .settings_list {
-      margin: 32px 16px;
-      > * {
-        margin-bottom: 24px;
-      }
-    }
+    gap: 10px;
   }
-  &_buttons_container {
-    input {
-      display: block;
-      margin-bottom: 10px;
-      padding: 5px;
-    }
-    textarea {
-      display: block;
-      margin-bottom: 10px;
-      padding: 5px;
-      height: 200px;
-    }
-    margin: 15px 16px 13px 16px;
+  &_row {
     display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
+    justify-content: space-between;
+    &_text {
+      align-self: center;
+    }
   }
 }

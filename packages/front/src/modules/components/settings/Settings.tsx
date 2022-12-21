@@ -1,70 +1,68 @@
+import React, { FC, useEffect, useState } from 'react'
+import BodyTemplate from "@modules/library/templates/bodyTemplate/BodyTemplate";
+import { useSetting } from "@modules/components/settings/api/useSetting";
+import { Loader } from "@modules/library/Loader";
+import { ColorBox } from "@modules/components/settings/components/ColorBox";
 import style from "./Settings.module.scss";
-import { Button } from "@modules/library/Button";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { TSetting } from "@modules/components/settings/types";
+import { InputNumber } from "@modules/components/settings/components/InputNumber";
+export const Settings: FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [form, setForm] = useState<TSetting | undefined>(undefined);
 
-export const Settings = () => {
-  const [data, setData] = useState("no data");
-  const [body, setBody] = useState(JSON.stringify({ action: "ON", id: 1 }));
-  const [url, setUrl] = useState("");
+  const {data} = useSetting({});
 
   useEffect(() => {
-    const storage = window.localStorage.getItem("debug_req");
-    if (storage) {
-      const obj = JSON.parse(storage) as { body?: string; url?: string };
-      setBody(obj.body ?? "");
-      setUrl(obj.url ?? "");
+    if (data){
+      setForm(JSON.parse(JSON.stringify(data))?.data);
+      setIsLoading(false);
     }
-  }, []);
+  }, [data])
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!form) {
+    return null;
+  }
+
   return (
-    <div className={style.settings}>
-      <div className={style.settings_container}>
-        <div className={style.settings_list}>
-          <pre>{data}</pre>
+    <BodyTemplate.Container>
+      <BodyTemplate.Main>
+        <div className={style.color_container}>
+          <div className={style.color_row}>
+            <div className={style.color_row_text}>Маячок</div>
+            <ColorBox color={form.color.pace} />
+          </div>
+          <div className={style.color_row}>
+            <div className={style.color_row_text}>Ожидание</div>
+            <ColorBox color={form.color.delay} />
+          </div>
+          <div className={style.color_row}>
+            <div className={style.color_row_text}>Обрат. отс.</div>
+            <ColorBox color={form.color.wait} />
+          </div>
+          <div className={style.color_row}>
+            <div className={style.color_row_text}>Обрат. отс.</div>
+            <InputNumber
+              value={form.delay ?? 0}
+              onChange={(e) => {
+                setForm((prevState) => {
+                  if (!prevState) {
+                    return prevState;
+                  }
+
+                  return {
+                    ...prevState,
+                    delay: Number(e.target.value),
+                  };
+                });
+              }}
+            />
+          </div>
         </div>
-      </div>
-      <div className={style.settings_buttons_container}>
-        <input
-          type="url"
-          name=""
-          id=""
-          value={url}
-          placeholder={"URL"}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-        <textarea
-          name=""
-          id=""
-          value={body}
-          placeholder={"URL"}
-          onChange={(e) => setBody(e.target.value)}
-        />
-        <Button
-          color={"blue"}
-          onClick={() => {
-            window.localStorage.setItem(
-              "debug_req",
-              JSON.stringify({
-                url,
-                body,
-              })
-            );
-            setData("");
-            try {
-              const bodyObj = JSON.parse(body);
-              axios
-                .post(url, bodyObj)
-                .then((data) => setData(JSON.stringify(data.data, null, " ")))
-                .catch((e) => setData(JSON.stringify(e, null, " ")));
-            } catch (e) {
-              // eslint-disable-next-line no-alert
-              alert(e);
-            }
-          }}
-        >
-          Send
-        </Button>
-      </div>
-    </div>
+      </BodyTemplate.Main>
+    </BodyTemplate.Container>
   );
 };

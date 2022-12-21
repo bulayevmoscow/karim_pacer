@@ -2,7 +2,6 @@ import style from "./Header.module.scss";
 import { Routes, Route } from "react-router-dom";
 import { routerList } from "@modules/components/Index";
 import { TFaceHeader } from "@modules/library/Typeface";
-import iconAdd from "@modules/icons/h_plus.svg";
 import { observer } from "mobx-react-lite";
 import store from "@store";
 
@@ -17,7 +16,11 @@ export const Header = observer(() => {
         />
         <Route
           path={routerList.setting}
-          element={<TFaceHeader>{"Setting"}</TFaceHeader>}
+          element={<TFaceHeader>{"Настройки басейна"}</TFaceHeader>}
+        />
+        <Route
+          path={routerList.debug}
+          element={<TFaceHeader>{"Debug"}</TFaceHeader>}
         />
         <Route
           path={routerList.lane + "/:id"}
@@ -28,7 +31,6 @@ export const Header = observer(() => {
           element={<TFaceHeader>{"Добавить интервал " + laneID}</TFaceHeader>}
         />
       </Routes>
-      <img src={iconAdd} alt="" />
     </div>
   );
 });
