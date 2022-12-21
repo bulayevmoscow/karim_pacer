@@ -1,7 +1,7 @@
-{
-  "printWidth": 120,
+module.exports = {
+  "printWidth": 80,
   "proseWrap": "preserve",
-  "semi": false,
+  "semi": true,
   "singleQuote": true,
   "useTabs": false,
   "tabWidth": 2,

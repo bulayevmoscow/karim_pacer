@@ -1,4 +1,4 @@
-import {TTrack} from '@monorepo/types';
+import { TTrack } from '@monorepo/types';
 
 export type TNavigation =
   | {
