@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from 'mobx';
 
 class Store {
   laneID: number;
@@ -8,10 +8,10 @@ class Store {
   }
 }
 
-import { configure } from "mobx";
+import { configure } from 'mobx';
 
 configure({
-  enforceActions: "never",
+  enforceActions: 'never',
 });
 
 export default new Store();

@@ -15,6 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "removeComments": true,
     "baseUrl": ".",
     "paths": {
       "@": ["src/*"],
@@ -22,7 +23,7 @@
       "@context": ["src/store/reducer.tsx"],
       "@store": ["src/store/store.ts"],
       "@utils/*": ["src/utils/*"],
-      "@library": ["src/modules/library/*"]
+      "@library": ["src/modules/library/*"],
     }
   },
   "include": ["./src"],

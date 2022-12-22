@@ -1,5 +1,7 @@
-import { createPortal } from "react-dom";
-import { observer } from "mobx-react-lite";
+import { createPortal } from 'react-dom';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
 const ModalError = observer(() => {
   return null;
   // const [progress, changeProgress] = useState(false);
@@ -31,8 +33,5 @@ const ModalError = observer(() => {
 });
 
 export const Modal = () => {
-  return createPortal(
-    <ModalError />,
-    document.querySelector("#modal") as Element
-  );
+  return createPortal(<ModalError />, document.querySelector('#modal') as Element);
 };

@@ -1,14 +1,15 @@
-import { FC } from "react";
-import IconConnect from "@modules/icons/unit/shutdown_green.svg";
-import IconDisconnect from "@modules/icons/unit/shutdown_red.svg";
-import IconSpeed from "@modules/icons/unit/speed.png";
-import IconDistance from "@modules/icons/unit/distance.png";
-import IconRest from "@modules/icons/unit/rest.png";
-import IconRepeat from "@modules/icons/unit/repeat.png";
-import IconTempo from "@modules/icons/unit/tempo.png";
+import { FC } from 'react';
+import React from 'react';
+import IconConnect from '@modules/icons/unit/shutdown_green.svg';
+import IconDisconnect from '@modules/icons/unit/shutdown_red.svg';
+import IconSpeed from '@modules/icons/unit/speed.png';
+import IconDistance from '@modules/icons/unit/distance.png';
+import IconRest from '@modules/icons/unit/rest.png';
+import IconRepeat from '@modules/icons/unit/repeat.png';
+import IconTempo from '@modules/icons/unit/tempo.png';
 
-import style from "./TrackUnit.module.scss";
-import { TFaceSubHeader } from "@modules/library/Typeface";
+import style from './TrackUnit.module.scss';
+import { TFaceSubHeader } from '@modules/library/Typeface';
 
 export type TTrackUnit = {
   name: string;
@@ -37,25 +38,15 @@ export const TrackUnit: FC<TTrackUnit> = ({
 }) => {
   // eslint-disable-next-line no-warning-comments
   // TODO сделать типографию
-  const disabledStatus =
-    (distance ?? rest ?? speed ?? temp ?? repeat ?? false) === false;
+  const disabledStatus = (distance ?? rest ?? speed ?? temp ?? repeat ?? false) === false;
   const shutdownStatus = isDiconnected || disabledStatus;
-  const borderColor =
-    (isClick && ((isDiconnected && "#FB8888") || "#92E59B")) || "transparent";
+  const borderColor = (isClick && ((isDiconnected && '#FB8888') || '#92E59B')) || 'transparent';
   return (
-    <div
-      className={style.track_container}
-      onClick={onClick}
-      style={{ borderColor }}
-    >
+    <div className={style.track_container} onClick={onClick} style={{ borderColor }}>
       <div className={style.track_header}>
         <TFaceSubHeader>{name}</TFaceSubHeader>
         <div className={style.icons_container}>
-          {isDiconnected ? (
-            <img src={IconDisconnect} alt="" />
-          ) : (
-            <img src={IconConnect} alt="" />
-          )}
+          {isDiconnected ? <img src={IconDisconnect} alt="" /> : <img src={IconConnect} alt="" />}
         </div>
       </div>
       {shutdownStatus ? undefined : (

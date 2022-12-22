@@ -1,14 +1,13 @@
-import React, { FC } from "react";
-import IconHome from "@modules/icons/f_home.svg";
-import IconSetting from "@modules/icons/f_setting.svg";
-import style from "./Footer.module.scss";
-import IconDebug from "@modules/icons/debug_icon.svg";
+import React, { FC } from 'react';
+import IconHome from '@modules/icons/f_home.svg';
+import IconSetting from '@modules/icons/f_setting.svg';
+import style from './Footer.module.scss';
+import IconDebug from '@modules/icons/debug_icon.svg';
 
-type TBodyPath = {};
-import { routerList } from "@modules/components/Index";
-import { useNavigate } from "react-router-dom";
+import { routerList } from '@modules/components/Index';
+import { useNavigate } from 'react-router-dom';
 
-export const Footer: FC<TBodyPath> = () => {
+export const Footer: FC = () => {
   const navigate = useNavigate();
   return (
     <div className={style.footer}>

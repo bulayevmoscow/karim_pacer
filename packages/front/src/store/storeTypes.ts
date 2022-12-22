@@ -1,25 +1,25 @@
-import { TTrack } from "@monorepo/types";
+import { TTrack } from '@monorepo/types';
 
 export type TNavigation =
   | {
-      title: "Дорожки";
-      pageTag: "main";
+      title: 'Дорожки';
+      pageTag: 'main';
     }
   | {
-      title: "Дорожка";
-      pageTag: "lane";
+      title: 'Дорожка';
+      pageTag: 'lane';
       idLine: number;
     }
   | {
-      title: "Настройки";
-      pageTag: "setting";
+      title: 'Настройки';
+      pageTag: 'setting';
     };
 
 export type TModalManager =
-  | {}
+  | Record<never, never>
   | {
-      header: "Ошибка подключения";
-      type: "ErrorConnect";
+      header: 'Ошибка подключения';
+      type: 'ErrorConnect';
       code: number;
       url: string;
     };

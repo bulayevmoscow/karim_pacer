@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { TRequests } from "@monorepo/types";
-import { axiosInstance } from "@utils/axiosInstance";
-import { AxiosError } from "axios";
-const eventStart = (func: Function) => {
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { TRequests } from '@monorepo/types';
+import { axiosInstance } from '@utils/axiosInstance';
+import { AxiosError } from 'axios';
+const eventStart = (func: () => void) => {
   return (e: MouseEvent) => {
     func();
     e.stopPropagation();
@@ -24,19 +24,19 @@ export const useTracks = () => {
     };
 
     if (document.body) {
-      document.body.addEventListener("click", event);
+      document.body.addEventListener('click', event);
     }
 
     return () => {
-      document.body.removeEventListener("click", event);
+      document.body.removeEventListener('click', event);
     };
   }, [showButtonPanel]);
 
-  type TReq = Extract<TRequests, { url: "api/shortData" }>["res"];
+  type TReq = Extract<TRequests, { url: 'api/shortData' }>['res'];
   const { data, isLoading, refetch, isError, remove } = useQuery(
-    "Tracks",
+    'Tracks',
     () =>
-      axios.post<TReq>("/api/shortData").then((res) => {
+      axios.post<TReq>('/api/shortData').then((res) => {
         res.data = res.data.sort((a, b) => a.id - b.id);
         console.log(res);
         return res;
@@ -45,7 +45,6 @@ export const useTracks = () => {
       enabled: true,
       retry: false,
       refetchInterval,
-      onError: (err: AxiosError) => {},
     }
   );
   useEffect(() => {
@@ -53,15 +52,13 @@ export const useTracks = () => {
   }, [remove]);
 
   const { refetch: manageInterval } = useQuery(
-    "api/start",
+    'api/start',
     async () => {
-      const body: Extract<TRequests, { url: "/api/startTrack" }>["payload"] = {
+      const body: Extract<TRequests, { url: '/api/startTrack' }>['payload'] = {
         id: Number(showButtonPanel),
-        status: data?.data[Number(showButtonPanel)].status !== "PROGRESS",
+        status: data?.data[Number(showButtonPanel)].status !== 'PROGRESS',
       };
-      const req = await axios.post<
-        Extract<TRequests, { url: "/api/startTrack" }>["res"]
-      >("/api/startTrack", body);
+      const req = await axios.post<Extract<TRequests, { url: '/api/startTrack' }>['res']>('/api/startTrack', body);
       await refetch();
       return req;
     },

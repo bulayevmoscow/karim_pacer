@@ -1,12 +1,12 @@
-import { observer } from "mobx-react-lite";
-import { useTracks } from "@modules/components/tracks/useTracks";
-import BodyTemplate from "@modules/library/templates/bodyTemplate/BodyTemplate";
-import { Button } from "@modules/library/Button";
-import React from "react";
-import { TrackUnit } from "@modules/components/tracks/unit/TrackUnit";
-import { Loader } from "@modules/library/Loader";
-import { useNavigate } from "react-router-dom";
-import { routerList } from "@modules/components/Index";
+import { observer } from 'mobx-react-lite';
+import { useTracks } from '@modules/components/tracks/useTracks';
+import BodyTemplate from '@modules/library/templates/bodyTemplate/BodyTemplate';
+import { Button } from '@modules/library/Button';
+import React from 'react';
+import { TrackUnit } from '@modules/components/tracks/unit/TrackUnit';
+import { Loader } from '@modules/library/Loader';
+import { useNavigate } from 'react-router-dom';
+import { routerList } from '@modules/components/Index';
 
 type TLinkCreator = {
   pageName: keyof typeof routerList;
@@ -14,6 +14,7 @@ type TLinkCreator = {
 };
 
 const linkCreator = ({ pageName, params }: TLinkCreator) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const url = new URL(routerList[pageName], window.location);
   if (params) {
@@ -28,14 +29,7 @@ const linkCreator = ({ pageName, params }: TLinkCreator) => {
 };
 
 export const Tracks = observer(() => {
-  const {
-    data,
-    isLoading,
-    setShowButtonPanel,
-    showButtonPanel,
-    eventStart,
-    manageInterval,
-  } = useTracks();
+  const { data, isLoading, setShowButtonPanel, showButtonPanel, eventStart, manageInterval } = useTracks();
   const navigate = useNavigate();
 
   return (
@@ -46,15 +40,11 @@ export const Tracks = observer(() => {
           data.map((lane) => (
             <TrackUnit
               key={lane.id}
-              name={lane.name ?? "No track name"}
-              isDiconnected={lane.status === "DISCONNECT"}
+              name={lane.name ?? 'No track name'}
+              isDiconnected={lane.status === 'DISCONNECT'}
               {...lane.intervals[0]}
               progress={lane.progress}
-              onClick={eventStart(() =>
-                showButtonPanel === lane.id
-                  ? undefined
-                  : setShowButtonPanel(lane.id)
-              )}
+              onClick={eventStart(() => (showButtonPanel === lane.id ? undefined : setShowButtonPanel(lane.id)))}
               isClick={lane.id === showButtonPanel}
             />
           ))}
@@ -63,7 +53,7 @@ export const Tracks = observer(() => {
       <BodyTemplate.Buttons show={showButtonPanel !== false}>
         <Button
           color="red"
-          show={data && data[Number(showButtonPanel)].status === "PROGRESS"}
+          show={data && data[Number(showButtonPanel)].status === 'PROGRESS'}
           onClick={(e) => {
             manageInterval();
             e.stopPropagation();
@@ -73,7 +63,7 @@ export const Tracks = observer(() => {
         </Button>
         <Button
           color="green"
-          show={data && data[Number(showButtonPanel)].status === "IDLE"}
+          show={data && data[Number(showButtonPanel)].status === 'IDLE'}
           onClick={(e) => {
             manageInterval();
             e.stopPropagation();
@@ -84,7 +74,7 @@ export const Tracks = observer(() => {
         <Button
           color="gray"
           disabled={true}
-          show={data && data[Number(showButtonPanel)].status === "DISCONNECT"}
+          show={data && data[Number(showButtonPanel)].status === 'DISCONNECT'}
           onClick={(e) => {
             manageInterval();
             e.stopPropagation();
@@ -95,7 +85,7 @@ export const Tracks = observer(() => {
         <Button
           color="blue"
           onClick={(e) => {
-            navigate(routerList.lane + "/" + showButtonPanel);
+            navigate(routerList.lane + '/' + showButtonPanel);
             e.stopPropagation();
           }}
         >

@@ -1,5 +1,5 @@
-import style from "./BodyTemplate.module.scss";
-import React, { FC } from "react";
+import style from './BodyTemplate.module.scss';
+import React, { FC } from 'react';
 
 type TBodyButtonTemplate = {
   show: boolean;

@@ -1,9 +1,9 @@
-import { useQuery } from "react-query";
-import { axiosInstance } from "@utils/axiosInstance";
-import { TRequests } from "@monorepo/types";
-import { useCallback, useEffect } from "react";
-import { createSearchParams, useNavigate, useParams } from "react-router-dom";
-import store from "@store";
+import { useQuery } from 'react-query';
+import { axiosInstance } from '@utils/axiosInstance';
+import { TRequests } from '@monorepo/types';
+import { useCallback, useEffect } from 'react';
+import { createSearchParams, useNavigate, useParams } from 'react-router-dom';
+import store from '@store';
 
 const axios = axiosInstance;
 
@@ -15,13 +15,10 @@ export const useLane = () => {
     isLoading,
     refetch: refreshLaneData,
   } = useQuery(
-    "LaneData",
+    'LaneData',
     () =>
       axios
-        .post<Extract<TRequests, { url: "api/trackData" }>["res"]>(
-          "/api/trackData",
-          { id: Number(idLane) }
-        )
+        .post<Extract<TRequests, { url: 'api/trackData' }>['res']>('/api/trackData', { id: Number(idLane) })
         .then((res) => {
           res.data?.intervals?.sort((a, b) => a.id - b.id);
           return res;
@@ -46,7 +43,7 @@ export const useLane = () => {
     const editedParams: Record<string, string> = {};
     Object.keys(params).forEach((key) => {
       editedParams[key] = String(params[key as keyof typeof params]);
-      console.log("editedParams[key]", editedParams[key]);
+      console.log('editedParams[key]', editedParams[key]);
     });
     console.log(editedParams);
     console.log(`?${createSearchParams(editedParams)}`);
@@ -57,15 +54,13 @@ export const useLane = () => {
   };
 
   const { refetch: manageInterval } = useQuery(
-    "api/start",
+    'api/start',
     async () => {
-      const body: Extract<TRequests, { url: "/api/startTrack" }>["payload"] = {
+      const body: Extract<TRequests, { url: '/api/startTrack' }>['payload'] = {
         id: Number(idLane),
-        status: data?.data?.status !== "PROGRESS",
+        status: data?.data?.status !== 'PROGRESS',
       };
-      const req = await axios.post<
-        Extract<TRequests, { url: "/api/startTrack" }>["res"]
-      >("/api/startTrack", body);
+      const req = await axios.post<Extract<TRequests, { url: '/api/startTrack' }>['res']>('/api/startTrack', body);
       refreshLaneData();
       return req;
     },
@@ -74,12 +69,12 @@ export const useLane = () => {
 
   const deleteInterval = async ({ id }: { id: number }) => {
     try {
-      const body: Extract<TRequests, { url: "/api/delInterval" }>["payload"] = {
+      const body: Extract<TRequests, { url: '/api/delInterval' }>['payload'] = {
         // eslint-disable-next-line camelcase
         track_id: Number(idLane),
         id,
       };
-      await axios.post("/api/delInterval", body);
+      await axios.post('/api/delInterval', body);
       refreshLaneData();
     } catch (e) {
       // eslint-disable-next-line no-alert

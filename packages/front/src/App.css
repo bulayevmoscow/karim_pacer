@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "SF Pro Display";
-  src: local("SF Pro Display Medium");
+  font-family: 'SF Pro Display';
+  src: local('SF Pro Display Medium');
   /*url('@/fonts/SFProDisplay-Medium.woff') format('woff');*/
 
   font-weight: 400;
@@ -12,8 +12,11 @@ body {
 }
 
 body > #root {
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -21,7 +24,7 @@ body > #root {
 }
 
 :root {
-  --font-medium: "SF Pro Display", Roboto, Helvetica, "Open Sans";
+  --font-medium: 'SF Pro Display', Roboto, Helvetica, 'Open Sans';
   --font-color-black: #000;
   --font-color-half-black: #484848;
 }

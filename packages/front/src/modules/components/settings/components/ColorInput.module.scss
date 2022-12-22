@@ -1,0 +1,15 @@
+.input {
+  //  reset
+  &[type='color']::-moz-color-swatch {
+    border: none;
+  }
+
+  &[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 0;
+  }
+
+  &[type='color']::-webkit-color-swatch {
+    border: none;
+  }
+}

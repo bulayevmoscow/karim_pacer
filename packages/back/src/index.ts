@@ -4,6 +4,7 @@ import { Response, Request, NextFunction } from 'express'
 import bodyParser from 'body-parser'
 import { TLanesInfo } from '@monorepo/front/src/store/storeTypes'
 import DataStorage from './DataStorage'
+import { getSettigs, postSettigs } from './api/setting'
 
 const TIMEOUT = (time: number) => new Promise(resolve => setTimeout(resolve, time))
 
@@ -132,6 +133,14 @@ app.post(
     res.json(DataStorage.getTrackData(req.body.id))
   }
 )
+
+app.get('/api/settings', (req, res) => {
+  res.status(200).json(getSettigs())
+})
+
+app.post('/api/settings', (req, res) => {
+  res.status(200).json(postSettigs(req.body))
+})
 
 app.listen(port, () => console.log(`Running on port ${port}\n`))
 

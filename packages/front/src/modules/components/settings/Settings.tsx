@@ -1,23 +1,42 @@
-import React, { FC, useEffect, useState } from 'react'
-import BodyTemplate from "@modules/library/templates/bodyTemplate/BodyTemplate";
-import { useSetting } from "@modules/components/settings/api/useSetting";
-import { Loader } from "@modules/library/Loader";
-import { ColorBox } from "@modules/components/settings/components/ColorBox";
-import style from "./Settings.module.scss";
-import { TSetting } from "@modules/components/settings/types";
-import { InputNumber } from "@modules/components/settings/components/InputNumber";
+import React, { FC } from 'react';
+import BodyTemplate from '@modules/library/templates/bodyTemplate/BodyTemplate';
+import { Loader } from '@modules/library/Loader';
+import { ColorInput } from '@modules/components/settings/components/ColorInput';
+import style from './Settings.module.scss';
+import { NumberInput } from '@modules/components/settings/components/NumberInput';
+import { useSetting } from '@modules/components/settings/useSetting';
+import { Select } from '@modules/components/settings/components/Select';
+import { typeOfPool } from '@modules/components/settings/constants';
+import { Button } from '@modules/library/Button';
+import { Modal, ModalErrorConnectModule } from '@modules/modal/Modal';
+
 export const Settings: FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [form, setForm] = useState<TSetting | undefined>(undefined);
+  const {
+    form,
+    isLoading,
+    onChangeColor,
+    onChangeDelay,
+    onChangeKeyOfPool,
+    poolSelectValue,
+    mutate,
+    isErrorLoading,
+    isErrorMutating,
+    isMutating,
+    refetchGetData,
+  } = useSetting();
 
-  const {data} = useSetting({});
-
-  useEffect(() => {
-    if (data){
-      setForm(JSON.parse(JSON.stringify(data))?.data);
-      setIsLoading(false);
-    }
-  }, [data])
+  if (isErrorLoading) {
+    return (
+      <Modal isOpen={true}>
+        <ModalErrorConnectModule
+          code={'GET'}
+          url={'/api/setting'}
+          refetch={refetchGetData}
+          status={false}
+        ></ModalErrorConnectModule>
+      </Modal>
+    );
+  }
 
   if (isLoading) {
     return <Loader />;
@@ -33,36 +52,79 @@ export const Settings: FC = () => {
         <div className={style.color_container}>
           <div className={style.color_row}>
             <div className={style.color_row_text}>Маячок</div>
-            <ColorBox color={form.color.pace} />
+            <ColorInput value={form.color.pace} onChange={onChangeColor('pace')} className={style.color_row_input} />
           </div>
           <div className={style.color_row}>
             <div className={style.color_row_text}>Ожидание</div>
-            <ColorBox color={form.color.delay} />
+            <ColorInput value={form.color.delay} onChange={onChangeColor('delay')} className={style.color_row_input} />
           </div>
           <div className={style.color_row}>
             <div className={style.color_row_text}>Обрат. отс.</div>
-            <ColorBox color={form.color.wait} />
+            <ColorInput value={form.color.wait} onChange={onChangeColor('wait')} className={style.color_row_input} />
           </div>
           <div className={style.color_row}>
-            <div className={style.color_row_text}>Обрат. отс.</div>
-            <InputNumber
-              value={form.delay ?? 0}
+            <div className={style.color_row_text}>Обрат. отс, сек</div>
+            <NumberInput value={String(form.delay) ?? 0} className={style.color_row_input} onChange={onChangeDelay} />
+          </div>
+          {/* Выбор типа бассейна */}
+          <div className={style.color_row}>
+            <div className={style.color_row_text}>Тип Бассейна</div>
+            <Select
+              current={form.pool.type}
+              value={poolSelectValue}
+              className={style.color_row_input}
               onChange={(e) => {
-                setForm((prevState) => {
-                  if (!prevState) {
-                    return prevState;
-                  }
-
-                  return {
-                    ...prevState,
-                    delay: Number(e.target.value),
-                  };
-                });
+                onChangeKeyOfPool('type')(e.target.value);
               }}
             />
           </div>
+          {/* Изображение бассейна */}
+          {typeOfPool[form.pool.type] && (
+            <>
+              {typeOfPool[form.pool.type].image && (
+                <div className={style.pool_image_container}>
+                  <img src={typeOfPool[form.pool.type].image} alt="pool image" />
+                </div>
+              )}
+              {typeOfPool[form.pool.type].fieldsOfPool.map((field) => {
+                return (
+                  <div className={style.color_row} key={field}>
+                    <div className={style.color_row_text}>{field}, м</div>
+                    <div>
+                      <NumberInput
+                        value={String(form.pool[field]) ?? '0'}
+                        className={style.color_row_input}
+                        onChange={(e) => {
+                          onChangeKeyOfPool(field)(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </div>
       </BodyTemplate.Main>
+      <BodyTemplate.Buttons show={true}>
+        <Button color={'green'} onClick={() => mutate(form)}>
+          Сохранить
+        </Button>
+      </BodyTemplate.Buttons>
+      {isErrorMutating && (
+        <Modal isOpen={true}>
+          <ModalErrorConnectModule
+            code={'POST'}
+            url={'/api/setting'}
+            refetch={() => {
+              if (form) {
+                mutate(form);
+              }
+            }}
+            status={false}
+          ></ModalErrorConnectModule>
+        </Modal>
+      )}
     </BodyTemplate.Container>
   );
 };

@@ -13,5 +13,42 @@
     &_text {
       align-self: center;
     }
+    &_input {
+      display: flex;
+      width: 150px;
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      border-width: 1px;
+      border-color: black;
+      height: 40px;
+      cursor: pointer;
+      background-color: unset;
+      text-align: left;
+      &[type='number'] {
+        border-color: black;
+        padding: 2px;
+      }
+    }
+  }
+}
+.pool {
+  &_image {
+    &_container {
+      width: 100%;
+      margin-top: 30px;
+      margin-bottom: 15px;
+
+      > img {
+        display: block;
+        height: 150px;
+        width: 100%;
+        max-width: 350px;
+        margin: auto;
+      }
+    }
+  }
+
+  &_config {
   }
 }
