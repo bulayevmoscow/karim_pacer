@@ -56,11 +56,11 @@ export const Settings: FC = () => {
           </div>
           <div className={style.color_row}>
             <div className={style.color_row_text}>Ожидание</div>
-            <ColorInput value={form.color.delay} onChange={onChangeColor('delay')} className={style.color_row_input} />
+            <ColorInput value={form.color.wait} onChange={onChangeColor('wait')} className={style.color_row_input} />
           </div>
           <div className={style.color_row}>
             <div className={style.color_row_text}>Обрат. отс.</div>
-            <ColorInput value={form.color.wait} onChange={onChangeColor('wait')} className={style.color_row_input} />
+            <ColorInput value={form.color.delay} onChange={onChangeColor('delay')} className={style.color_row_input} />
           </div>
           <div className={style.color_row}>
             <div className={style.color_row_text}>Обрат. отс, сек</div>

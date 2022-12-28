@@ -23,7 +23,7 @@
       "@context": ["src/store/reducer.tsx"],
       "@store": ["src/store/store.ts"],
       "@utils/*": ["src/utils/*"],
-      "@library": ["src/modules/library/*"],
+      "@library": ["src/modules/library/*"]
     }
   },
   "include": ["./src"],

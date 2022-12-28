@@ -17,6 +17,6 @@ const b = [
     tempo: 400,
     progress: 30,
   },
-]
+];
 
-console.log(JSON.stringify(b))
+console.log(JSON.stringify(b));
